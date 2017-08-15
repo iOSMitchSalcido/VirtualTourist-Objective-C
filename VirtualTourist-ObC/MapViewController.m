@@ -25,11 +25,15 @@
     
     void (^flickrCompletion)(NSArray *, NSError *);
     flickrCompletion = ^(NSArray *array, NSError *error) {
-        NSLog(@"flickrCompletion");
-        NSLog(@"%@", array);
+        
+        for (NSString *urlString in array)
+            NSLog(@"%@", urlString);
     };
     
-    [flickrApi downloadFlickrAlbumForLongitude:-122.43 andLatitude:37.77 withCompletion:flickrCompletion];
+    [flickrApi downloadFlickrAlbumForLongitude:-122.43
+                                   andLatitude:37.77
+                                    searchPage:nil
+                                withCompletion:flickrCompletion];
 }
 
 

@@ -9,9 +9,6 @@
 #import "FlickrAPI.h"
 #import "Networking.h"
 
-#define kApiKeyValue     @"3bc85d1817c25bfd73b8a05ff26a01c3"
-#define kSearchRadius    @"10.0"
-
 @interface FlickrAPI()
 @property (nonatomic, strong) Networking *networking;
 
@@ -34,8 +31,11 @@
 
 - (void)downloadFlickrAlbumForLongitude:(double)longitude
                             andLatitude:(double)latitude
+                             searchPage:(NSString *)page
                          withCompletion:(void (^)(NSArray *urlStrings, NSError *error))completion {
     
+    NSDictionary *params = [self createPhotoSearchParamsLongitude:longitude latitude:latitude searchPage:page];
+
     void (^taskCompletion)(NSDictionary *, NSError *);
     taskCompletion = ^(NSDictionary *data, NSError *error) {
         
@@ -55,25 +55,46 @@
             return;
         }
         
-        NSArray *photosArray = photosDictionary[@"photo"];
-        if (photosArray == nil) {
-            NSLog(@"bad photo array");
-            return;
+        NSDictionary *searchItems = params[kNetworkItems];
+        if (searchItems[@"page"] == nil) {
+            
+            NSString *pagesString = photosDictionary[@"pages"];
+            NSString *perPageString = photosDictionary[@"perpage"];
+            NSInteger pages = [pagesString integerValue];
+            NSInteger perPage = [perPageString integerValue];
+            NSInteger maxPages = kFlickrMaxImageReturn / perPage;
+            
+            if (pages <= maxPages)
+                maxPages = pages;
+            
+            NSInteger randomPage = arc4random_uniform((int)maxPages) + 1;
+            
+            [self downloadFlickrAlbumForLongitude:longitude
+                                      andLatitude:latitude
+                                       searchPage:[NSString stringWithFormat:@"%ld", (long)randomPage]
+                                   withCompletion:completion];
         }
-        
-        NSMutableArray *urlStringsArray = [[NSMutableArray alloc] init];
-        for (NSDictionary *photoDictionary in photosArray) {
-            NSArray *keys = photoDictionary.allKeys;
-            for (NSString *key in keys) {
-                if ([key isEqualToString:@"url_m"])
-                    [urlStringsArray addObject:photoDictionary[key]];
+        else {
+            
+            NSArray *photoArray = photosDictionary[@"photo"];
+            if (photoArray == nil) {
+                NSLog(@"bad photo array");
+                return;
             }
+            
+            NSMutableArray *urlStringsArray = [[NSMutableArray alloc] init];
+            for (NSDictionary *photoDictionary in photoArray) {
+                NSArray *keys = photoDictionary.allKeys;
+                for (NSString *key in keys) {
+                    if ([key isEqualToString:@"url_m"])
+                        [urlStringsArray addObject:photoDictionary[key]];
+                }
+            }
+            
+            completion(urlStringsArray, nil);
         }
-        
-        completion(urlStringsArray, nil);
     };
     
-    NSDictionary *params = [self createPhotoSearchParamsLongitude:longitude latitude:latitude searchPage:nil];    
     [self.networking dataTaskForParams:params withCompletion:taskCompletion];
 }
 
