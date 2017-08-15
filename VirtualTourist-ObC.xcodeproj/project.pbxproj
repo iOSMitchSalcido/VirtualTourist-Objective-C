@@ -7,14 +7,26 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		861A30FB1F40F9D3009A3979 /* Flick+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861A30F51F40F9D3009A3979 /* Flick+CoreDataClass.swift */; };
+		861A30FC1F40F9D3009A3979 /* Flick+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861A30F61F40F9D3009A3979 /* Flick+CoreDataProperties.swift */; };
+		861A30FD1F40F9D3009A3979 /* Pin+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861A30F71F40F9D3009A3979 /* Pin+CoreDataClass.swift */; };
+		861A30FE1F40F9D3009A3979 /* Pin+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861A30F81F40F9D3009A3979 /* Pin+CoreDataProperties.swift */; };
+		861A30FF1F40F9D3009A3979 /* Coordinate+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861A30F91F40F9D3009A3979 /* Coordinate+CoreDataClass.swift */; };
+		861A31001F40F9D3009A3979 /* Coordinate+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861A30FA1F40F9D3009A3979 /* Coordinate+CoreDataProperties.swift */; };
+		862F408B1F421C73003076EE /* Networking.m in Sources */ = {isa = PBXBuildFile; fileRef = 862F408A1F421C73003076EE /* Networking.m */; };
+		862F408E1F422011003076EE /* FlickrAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 862F408D1F422011003076EE /* FlickrAPI.m */; };
+		865F00A11F3FA37D00A8DA6A /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 865F009F1F3FA37D00A8DA6A /* DataModel.xcdatamodeld */; };
 		867B11981F3F530A003C0DF6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 867B11971F3F530A003C0DF6 /* main.m */; };
 		867B119B1F3F530A003C0DF6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 867B119A1F3F530A003C0DF6 /* AppDelegate.m */; };
-		867B119E1F3F530A003C0DF6 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 867B119D1F3F530A003C0DF6 /* ViewController.m */; };
+		867B119E1F3F530A003C0DF6 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 867B119D1F3F530A003C0DF6 /* MapViewController.m */; };
 		867B11A11F3F530A003C0DF6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 867B119F1F3F530A003C0DF6 /* Main.storyboard */; };
 		867B11A31F3F530A003C0DF6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 867B11A21F3F530A003C0DF6 /* Assets.xcassets */; };
 		867B11A61F3F530A003C0DF6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 867B11A41F3F530A003C0DF6 /* LaunchScreen.storyboard */; };
 		867B11B11F3F530A003C0DF6 /* VirtualTourist_ObCTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 867B11B01F3F530A003C0DF6 /* VirtualTourist_ObCTests.m */; };
 		867B11BC1F3F530A003C0DF6 /* VirtualTourist_ObCUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 867B11BB1F3F530A003C0DF6 /* VirtualTourist_ObCUITests.m */; };
+		867B11CB1F3F55C3003C0DF6 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 867B11CA1F3F55C3003C0DF6 /* MapKit.framework */; };
+		867B11CD1F3F55D4003C0DF6 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 867B11CC1F3F55D4003C0DF6 /* CoreData.framework */; };
+		867B11D01F3F58D5003C0DF6 /* CoreDataStack.m in Sources */ = {isa = PBXBuildFile; fileRef = 867B11CF1F3F58D5003C0DF6 /* CoreDataStack.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,12 +47,24 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		861A30F41F40F9D2009A3979 /* VirtualTourist-ObC-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "VirtualTourist-ObC-Bridging-Header.h"; sourceTree = "<group>"; };
+		861A30F51F40F9D3009A3979 /* Flick+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Flick+CoreDataClass.swift"; path = "../Flick+CoreDataClass.swift"; sourceTree = "<group>"; };
+		861A30F61F40F9D3009A3979 /* Flick+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Flick+CoreDataProperties.swift"; path = "../Flick+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		861A30F71F40F9D3009A3979 /* Pin+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Pin+CoreDataClass.swift"; path = "../Pin+CoreDataClass.swift"; sourceTree = "<group>"; };
+		861A30F81F40F9D3009A3979 /* Pin+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Pin+CoreDataProperties.swift"; path = "../Pin+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		861A30F91F40F9D3009A3979 /* Coordinate+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Coordinate+CoreDataClass.swift"; path = "../Coordinate+CoreDataClass.swift"; sourceTree = "<group>"; };
+		861A30FA1F40F9D3009A3979 /* Coordinate+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Coordinate+CoreDataProperties.swift"; path = "../Coordinate+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		862F40891F421C73003076EE /* Networking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Networking.h; sourceTree = "<group>"; };
+		862F408A1F421C73003076EE /* Networking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Networking.m; sourceTree = "<group>"; };
+		862F408C1F422011003076EE /* FlickrAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlickrAPI.h; sourceTree = "<group>"; };
+		862F408D1F422011003076EE /* FlickrAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlickrAPI.m; sourceTree = "<group>"; };
+		865F00A01F3FA37D00A8DA6A /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
 		867B11931F3F530A003C0DF6 /* VirtualTourist-ObC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "VirtualTourist-ObC.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		867B11971F3F530A003C0DF6 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		867B11991F3F530A003C0DF6 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		867B119A1F3F530A003C0DF6 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		867B119C1F3F530A003C0DF6 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		867B119D1F3F530A003C0DF6 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		867B119C1F3F530A003C0DF6 /* MapViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
+		867B119D1F3F530A003C0DF6 /* MapViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		867B11A01F3F530A003C0DF6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		867B11A21F3F530A003C0DF6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		867B11A51F3F530A003C0DF6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -51,6 +75,10 @@
 		867B11B71F3F530A003C0DF6 /* VirtualTourist-ObCUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "VirtualTourist-ObCUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		867B11BB1F3F530A003C0DF6 /* VirtualTourist_ObCUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VirtualTourist_ObCUITests.m; sourceTree = "<group>"; };
 		867B11BD1F3F530A003C0DF6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		867B11CA1F3F55C3003C0DF6 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		867B11CC1F3F55D4003C0DF6 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		867B11CE1F3F58D5003C0DF6 /* CoreDataStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataStack.h; sourceTree = "<group>"; };
+		867B11CF1F3F58D5003C0DF6 /* CoreDataStack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataStack.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +86,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				867B11CD1F3F55D4003C0DF6 /* CoreData.framework in Frameworks */,
+				867B11CB1F3F55C3003C0DF6 /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +108,33 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		862F40881F421C5C003076EE /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				862F40891F421C73003076EE /* Networking.h */,
+				862F408A1F421C73003076EE /* Networking.m */,
+				862F408C1F422011003076EE /* FlickrAPI.h */,
+				862F408D1F422011003076EE /* FlickrAPI.m */,
+			);
+			name = Networking;
+			sourceTree = "<group>";
+		};
+		865F00A21F3FA38B00A8DA6A /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				861A30F51F40F9D3009A3979 /* Flick+CoreDataClass.swift */,
+				861A30F61F40F9D3009A3979 /* Flick+CoreDataProperties.swift */,
+				861A30F71F40F9D3009A3979 /* Pin+CoreDataClass.swift */,
+				861A30F81F40F9D3009A3979 /* Pin+CoreDataProperties.swift */,
+				861A30F91F40F9D3009A3979 /* Coordinate+CoreDataClass.swift */,
+				861A30FA1F40F9D3009A3979 /* Coordinate+CoreDataProperties.swift */,
+				867B11CE1F3F58D5003C0DF6 /* CoreDataStack.h */,
+				867B11CF1F3F58D5003C0DF6 /* CoreDataStack.m */,
+				865F009F1F3FA37D00A8DA6A /* DataModel.xcdatamodeld */,
+			);
+			name = CoreData;
+			sourceTree = "<group>";
+		};
 		867B118A1F3F530A003C0DF6 = {
 			isa = PBXGroup;
 			children = (
@@ -85,6 +142,8 @@
 				867B11AF1F3F530A003C0DF6 /* VirtualTourist-ObCTests */,
 				867B11BA1F3F530A003C0DF6 /* VirtualTourist-ObCUITests */,
 				867B11941F3F530A003C0DF6 /* Products */,
+				867B11C91F3F55C3003C0DF6 /* Frameworks */,
+				861A30F41F40F9D2009A3979 /* VirtualTourist-ObC-Bridging-Header.h */,
 			);
 			sourceTree = "<group>";
 		};
@@ -101,10 +160,12 @@
 		867B11951F3F530A003C0DF6 /* VirtualTourist-ObC */ = {
 			isa = PBXGroup;
 			children = (
+				862F40881F421C5C003076EE /* Networking */,
+				865F00A21F3FA38B00A8DA6A /* CoreData */,
 				867B11991F3F530A003C0DF6 /* AppDelegate.h */,
 				867B119A1F3F530A003C0DF6 /* AppDelegate.m */,
-				867B119C1F3F530A003C0DF6 /* ViewController.h */,
-				867B119D1F3F530A003C0DF6 /* ViewController.m */,
+				867B119C1F3F530A003C0DF6 /* MapViewController.h */,
+				867B119D1F3F530A003C0DF6 /* MapViewController.m */,
 				867B119F1F3F530A003C0DF6 /* Main.storyboard */,
 				867B11A21F3F530A003C0DF6 /* Assets.xcassets */,
 				867B11A41F3F530A003C0DF6 /* LaunchScreen.storyboard */,
@@ -138,6 +199,15 @@
 				867B11BD1F3F530A003C0DF6 /* Info.plist */,
 			);
 			path = "VirtualTourist-ObCUITests";
+			sourceTree = "<group>";
+		};
+		867B11C91F3F55C3003C0DF6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				867B11CC1F3F55D4003C0DF6 /* CoreData.framework */,
+				867B11CA1F3F55C3003C0DF6 /* MapKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -207,6 +277,8 @@
 				TargetAttributes = {
 					867B11921F3F530A003C0DF6 = {
 						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = FN5VW63KQX;
+						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 					};
 					867B11AB1F3F530A003C0DF6 = {
@@ -273,9 +345,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				867B119E1F3F530A003C0DF6 /* ViewController.m in Sources */,
+				867B119E1F3F530A003C0DF6 /* MapViewController.m in Sources */,
+				861A30FE1F40F9D3009A3979 /* Pin+CoreDataProperties.swift in Sources */,
+				862F408E1F422011003076EE /* FlickrAPI.m in Sources */,
+				865F00A11F3FA37D00A8DA6A /* DataModel.xcdatamodeld in Sources */,
 				867B119B1F3F530A003C0DF6 /* AppDelegate.m in Sources */,
 				867B11981F3F530A003C0DF6 /* main.m in Sources */,
+				867B11D01F3F58D5003C0DF6 /* CoreDataStack.m in Sources */,
+				861A30FD1F40F9D3009A3979 /* Pin+CoreDataClass.swift in Sources */,
+				861A31001F40F9D3009A3979 /* Coordinate+CoreDataProperties.swift in Sources */,
+				861A30FF1F40F9D3009A3979 /* Coordinate+CoreDataClass.swift in Sources */,
+				861A30FB1F40F9D3009A3979 /* Flick+CoreDataClass.swift in Sources */,
+				861A30FC1F40F9D3009A3979 /* Flick+CoreDataProperties.swift in Sources */,
+				862F408B1F421C73003076EE /* Networking.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -424,10 +506,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				DEVELOPMENT_TEAM = FN5VW63KQX;
 				INFOPLIST_FILE = "VirtualTourist-ObC/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mitchsalcido.VirtualTourist-ObC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "VirtualTourist-ObC-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -435,16 +522,21 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				DEVELOPMENT_TEAM = FN5VW63KQX;
 				INFOPLIST_FILE = "VirtualTourist-ObC/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mitchsalcido.VirtualTourist-ObC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "VirtualTourist-ObC-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
 		867B11C41F3F530A003C0DF6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				INFOPLIST_FILE = "VirtualTourist-ObCTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -457,6 +549,7 @@
 		867B11C51F3F530A003C0DF6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				INFOPLIST_FILE = "VirtualTourist-ObCTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -469,6 +562,7 @@
 		867B11C71F3F530A003C0DF6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				INFOPLIST_FILE = "VirtualTourist-ObCUITests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mitchsalcido.VirtualTourist-ObCUITests";
@@ -480,6 +574,7 @@
 		867B11C81F3F530A003C0DF6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				INFOPLIST_FILE = "VirtualTourist-ObCUITests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mitchsalcido.VirtualTourist-ObCUITests";
@@ -507,6 +602,7 @@
 				867B11C21F3F530A003C0DF6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		867B11C31F3F530A003C0DF6 /* Build configuration list for PBXNativeTarget "VirtualTourist-ObCTests" */ = {
 			isa = XCConfigurationList;
@@ -515,6 +611,7 @@
 				867B11C51F3F530A003C0DF6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		867B11C61F3F530A003C0DF6 /* Build configuration list for PBXNativeTarget "VirtualTourist-ObCUITests" */ = {
 			isa = XCConfigurationList;
@@ -523,8 +620,22 @@
 				867B11C81F3F530A003C0DF6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		865F009F1F3FA37D00A8DA6A /* DataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				865F00A01F3FA37D00A8DA6A /* DataModel.xcdatamodel */,
+			);
+			currentVersion = 865F00A01F3FA37D00A8DA6A /* DataModel.xcdatamodel */;
+			path = DataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 867B118B1F3F530A003C0DF6 /* Project object */;
 }

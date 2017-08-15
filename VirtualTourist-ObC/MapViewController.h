@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  MapViewController.h
 //  VirtualTourist-ObC
 //
 //  Created by Online Training on 8/12/17.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
+@interface MapViewController : UIViewController
 
 
 @end
