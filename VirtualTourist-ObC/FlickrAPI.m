@@ -9,8 +9,8 @@
 #import "FlickrAPI.h"
 #import "Networking.h"
 
-#define apiKeyValue     @"3bc85d1817c25bfd73b8a05ff26a01c3"
-#define searchRadius    @"10.0"
+#define kApiKeyValue     @"3bc85d1817c25bfd73b8a05ff26a01c3"
+#define kSearchRadius    @"10.0"
 
 @interface FlickrAPI()
 @property (nonatomic, strong) Networking *networking;
@@ -44,8 +44,33 @@
             return;
         }
         
-        NSLog(@"%@", data);
-        completion(nil, nil);
+        if (data == nil) {
+            NSLog(@"nil data");
+            return;
+        }
+        
+        NSDictionary *photosDictionary = data[@"photos"];
+        if (photosDictionary == nil) {
+            NSLog(@"bad photos dictionary");
+            return;
+        }
+        
+        NSArray *photosArray = photosDictionary[@"photo"];
+        if (photosArray == nil) {
+            NSLog(@"bad photo array");
+            return;
+        }
+        
+        NSMutableArray *urlStringsArray = [[NSMutableArray alloc] init];
+        for (NSDictionary *photoDictionary in photosArray) {
+            NSArray *keys = photoDictionary.allKeys;
+            for (NSString *key in keys) {
+                if ([key isEqualToString:@"url_m"])
+                    [urlStringsArray addObject:photoDictionary[key]];
+            }
+        }
+        
+        completion(urlStringsArray, nil);
     };
     
     NSDictionary *params = [self createPhotoSearchParamsLongitude:longitude latitude:latitude searchPage:nil];    
@@ -53,47 +78,25 @@
 }
 
 - (NSDictionary *)createPhotoSearchParamsLongitude:(double)lon latitude:(double)lat searchPage:(NSString *)page {
-    /*
-     var items = ["method": FlickrAPI.Methods.photosSearch,
-     FlickrAPI.Keys.apiKey: FlickrAPI.Values.apiKey,
-     FlickrAPI.Keys.format: FlickrAPI.Values.json,
-     FlickrAPI.Keys.extras: FlickrAPI.Values.mediumURL,
-     FlickrAPI.Keys.nojsoncallback: FlickrAPI.Values.nojsoncallback,
-     FlickrAPI.Keys.safeSearch: FlickrAPI.Values.safeSearch,
-     FlickrAPI.Keys.longitude: "\(coordinate.longitude)",
-     FlickrAPI.Keys.latitude: "\(coordinate.latitude)",
-     FlickrAPI.Keys.radius: "\(self.searchRadius)"]
-     
-     // include page search if non-nil
-     if let page = page {
-     items["page"] = "\(page)"
-     }
-     
-     // return params for task
-     return [Networking.Keys.items: items as AnyObject,
-     Networking.Keys.host: FlickrAPI.Subcomponents.host as AnyObject,
-     Networking.Keys.scheme: FlickrAPI.Subcomponents.scheme as AnyObject,
-     Networking.Keys.path: FlickrAPI.Subcomponents.path as AnyObject]
-     */
     
     NSMutableDictionary *searchItems = [[NSMutableDictionary alloc] init];
     searchItems[@"method"] = @"flickr.photos.search";
-    searchItems[@"api_key"] = apiKeyValue;
+    searchItems[@"api_key"] = kApiKeyValue;
     searchItems[@"format"] = @"json";
     searchItems[@"nojsoncallback"] = @"1";
     searchItems[@"safe_search"] = @"1";
     searchItems[@"extras"] = @"url_m";
     searchItems[@"lon"] = [NSString stringWithFormat:@"%f", lon];
     searchItems[@"lat"] = [NSString stringWithFormat:@"%f", lat];
-    searchItems[@"radius"] = searchRadius;
+    searchItems[@"radius"] = kSearchRadius;
     
     if (page != nil)
         searchItems[@"page"] = page;
     
-    return @{@"items": searchItems,
-             @"host": @"api.flickr.com",
-             @"scheme": @"https",
-             @"path": @"/services/rest"};
+    return @{kNetworkItems: searchItems,
+             kNetworkHost: @"api.flickr.com",
+             kNetworkScheme: @"https",
+             kNetworkPath: @"/services/rest"};
 }
 
 - (Networking *)networking {

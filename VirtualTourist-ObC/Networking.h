@@ -9,10 +9,10 @@
 #import <Foundation/Foundation.h>
 
 // constants, keys
-#define items   @"items"
-#define host    @"host"
-#define scheme  @"scheme"
-#define path    @"path"
+#define kNetworkItems   @"items"
+#define kNetworkHost    @"host"
+#define kNetworkScheme  @"scheme"
+#define kNetworkPath    @"path"
 
 // constants, values
 @interface Networking : NSObject
