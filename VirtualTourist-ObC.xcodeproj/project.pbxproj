@@ -7,12 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		861A30FB1F40F9D3009A3979 /* Flick+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861A30F51F40F9D3009A3979 /* Flick+CoreDataClass.swift */; };
-		861A30FC1F40F9D3009A3979 /* Flick+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861A30F61F40F9D3009A3979 /* Flick+CoreDataProperties.swift */; };
-		861A30FD1F40F9D3009A3979 /* Pin+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861A30F71F40F9D3009A3979 /* Pin+CoreDataClass.swift */; };
-		861A30FE1F40F9D3009A3979 /* Pin+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861A30F81F40F9D3009A3979 /* Pin+CoreDataProperties.swift */; };
-		861A30FF1F40F9D3009A3979 /* Coordinate+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861A30F91F40F9D3009A3979 /* Coordinate+CoreDataClass.swift */; };
-		861A31001F40F9D3009A3979 /* Coordinate+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861A30FA1F40F9D3009A3979 /* Coordinate+CoreDataProperties.swift */; };
+		861329431F468A1C00C1568A /* AlbumViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 861329421F468A1C00C1568A /* AlbumViewController.m */; };
+		86203A3C1F45AE7000456C7C /* Pin+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 86203A351F45AE6F00456C7C /* Pin+CoreDataClass.m */; };
+		86203A3D1F45AE7000456C7C /* Pin+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 86203A371F45AE6F00456C7C /* Pin+CoreDataProperties.m */; };
+		86203A3E1F45AE7000456C7C /* Flick+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 86203A391F45AE7000456C7C /* Flick+CoreDataClass.m */; };
+		86203A3F1F45AE7000456C7C /* Flick+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 86203A3B1F45AE7000456C7C /* Flick+CoreDataProperties.m */; };
 		862F408B1F421C73003076EE /* Networking.m in Sources */ = {isa = PBXBuildFile; fileRef = 862F408A1F421C73003076EE /* Networking.m */; };
 		862F408E1F422011003076EE /* FlickrAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 862F408D1F422011003076EE /* FlickrAPI.m */; };
 		865F00A11F3FA37D00A8DA6A /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 865F009F1F3FA37D00A8DA6A /* DataModel.xcdatamodeld */; };
@@ -27,6 +26,7 @@
 		867B11CB1F3F55C3003C0DF6 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 867B11CA1F3F55C3003C0DF6 /* MapKit.framework */; };
 		867B11CD1F3F55D4003C0DF6 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 867B11CC1F3F55D4003C0DF6 /* CoreData.framework */; };
 		867B11D01F3F58D5003C0DF6 /* CoreDataStack.m in Sources */ = {isa = PBXBuildFile; fileRef = 867B11CF1F3F58D5003C0DF6 /* CoreDataStack.m */; };
+		86F0287F1F4475D7004E9299 /* VTAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 86F0287E1F4475D7004E9299 /* VTAnnotation.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,13 +47,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		861329411F468A1C00C1568A /* AlbumViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumViewController.h; sourceTree = "<group>"; };
+		861329421F468A1C00C1568A /* AlbumViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumViewController.m; sourceTree = "<group>"; };
 		861A30F41F40F9D2009A3979 /* VirtualTourist-ObC-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "VirtualTourist-ObC-Bridging-Header.h"; sourceTree = "<group>"; };
-		861A30F51F40F9D3009A3979 /* Flick+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Flick+CoreDataClass.swift"; path = "../Flick+CoreDataClass.swift"; sourceTree = "<group>"; };
-		861A30F61F40F9D3009A3979 /* Flick+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Flick+CoreDataProperties.swift"; path = "../Flick+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		861A30F71F40F9D3009A3979 /* Pin+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Pin+CoreDataClass.swift"; path = "../Pin+CoreDataClass.swift"; sourceTree = "<group>"; };
-		861A30F81F40F9D3009A3979 /* Pin+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Pin+CoreDataProperties.swift"; path = "../Pin+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		861A30F91F40F9D3009A3979 /* Coordinate+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Coordinate+CoreDataClass.swift"; path = "../Coordinate+CoreDataClass.swift"; sourceTree = "<group>"; };
-		861A30FA1F40F9D3009A3979 /* Coordinate+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Coordinate+CoreDataProperties.swift"; path = "../Coordinate+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		86203A341F45AE6F00456C7C /* Pin+CoreDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Pin+CoreDataClass.h"; path = "../Pin+CoreDataClass.h"; sourceTree = "<group>"; };
+		86203A351F45AE6F00456C7C /* Pin+CoreDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Pin+CoreDataClass.m"; path = "../Pin+CoreDataClass.m"; sourceTree = "<group>"; };
+		86203A361F45AE6F00456C7C /* Pin+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Pin+CoreDataProperties.h"; path = "../Pin+CoreDataProperties.h"; sourceTree = "<group>"; };
+		86203A371F45AE6F00456C7C /* Pin+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Pin+CoreDataProperties.m"; path = "../Pin+CoreDataProperties.m"; sourceTree = "<group>"; };
+		86203A381F45AE6F00456C7C /* Flick+CoreDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Flick+CoreDataClass.h"; path = "../Flick+CoreDataClass.h"; sourceTree = "<group>"; };
+		86203A391F45AE7000456C7C /* Flick+CoreDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Flick+CoreDataClass.m"; path = "../Flick+CoreDataClass.m"; sourceTree = "<group>"; };
+		86203A3A1F45AE7000456C7C /* Flick+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Flick+CoreDataProperties.h"; path = "../Flick+CoreDataProperties.h"; sourceTree = "<group>"; };
+		86203A3B1F45AE7000456C7C /* Flick+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Flick+CoreDataProperties.m"; path = "../Flick+CoreDataProperties.m"; sourceTree = "<group>"; };
 		862F40891F421C73003076EE /* Networking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Networking.h; sourceTree = "<group>"; };
 		862F408A1F421C73003076EE /* Networking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Networking.m; sourceTree = "<group>"; };
 		862F408C1F422011003076EE /* FlickrAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlickrAPI.h; sourceTree = "<group>"; };
@@ -79,6 +83,8 @@
 		867B11CC1F3F55D4003C0DF6 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		867B11CE1F3F58D5003C0DF6 /* CoreDataStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataStack.h; sourceTree = "<group>"; };
 		867B11CF1F3F58D5003C0DF6 /* CoreDataStack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataStack.m; sourceTree = "<group>"; };
+		86F0287D1F4475D7004E9299 /* VTAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VTAnnotation.h; sourceTree = "<group>"; };
+		86F0287E1F4475D7004E9299 /* VTAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VTAnnotation.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,12 +128,14 @@
 		865F00A21F3FA38B00A8DA6A /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
-				861A30F51F40F9D3009A3979 /* Flick+CoreDataClass.swift */,
-				861A30F61F40F9D3009A3979 /* Flick+CoreDataProperties.swift */,
-				861A30F71F40F9D3009A3979 /* Pin+CoreDataClass.swift */,
-				861A30F81F40F9D3009A3979 /* Pin+CoreDataProperties.swift */,
-				861A30F91F40F9D3009A3979 /* Coordinate+CoreDataClass.swift */,
-				861A30FA1F40F9D3009A3979 /* Coordinate+CoreDataProperties.swift */,
+				86203A341F45AE6F00456C7C /* Pin+CoreDataClass.h */,
+				86203A351F45AE6F00456C7C /* Pin+CoreDataClass.m */,
+				86203A361F45AE6F00456C7C /* Pin+CoreDataProperties.h */,
+				86203A371F45AE6F00456C7C /* Pin+CoreDataProperties.m */,
+				86203A381F45AE6F00456C7C /* Flick+CoreDataClass.h */,
+				86203A391F45AE7000456C7C /* Flick+CoreDataClass.m */,
+				86203A3A1F45AE7000456C7C /* Flick+CoreDataProperties.h */,
+				86203A3B1F45AE7000456C7C /* Flick+CoreDataProperties.m */,
 				867B11CE1F3F58D5003C0DF6 /* CoreDataStack.h */,
 				867B11CF1F3F58D5003C0DF6 /* CoreDataStack.m */,
 				865F009F1F3FA37D00A8DA6A /* DataModel.xcdatamodeld */,
@@ -166,6 +174,10 @@
 				867B119A1F3F530A003C0DF6 /* AppDelegate.m */,
 				867B119C1F3F530A003C0DF6 /* MapViewController.h */,
 				867B119D1F3F530A003C0DF6 /* MapViewController.m */,
+				861329411F468A1C00C1568A /* AlbumViewController.h */,
+				861329421F468A1C00C1568A /* AlbumViewController.m */,
+				86F0287D1F4475D7004E9299 /* VTAnnotation.h */,
+				86F0287E1F4475D7004E9299 /* VTAnnotation.m */,
 				867B119F1F3F530A003C0DF6 /* Main.storyboard */,
 				867B11A21F3F530A003C0DF6 /* Assets.xcassets */,
 				867B11A41F3F530A003C0DF6 /* LaunchScreen.storyboard */,
@@ -346,17 +358,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				867B119E1F3F530A003C0DF6 /* MapViewController.m in Sources */,
-				861A30FE1F40F9D3009A3979 /* Pin+CoreDataProperties.swift in Sources */,
 				862F408E1F422011003076EE /* FlickrAPI.m in Sources */,
+				86203A3E1F45AE7000456C7C /* Flick+CoreDataClass.m in Sources */,
+				86203A3C1F45AE7000456C7C /* Pin+CoreDataClass.m in Sources */,
 				865F00A11F3FA37D00A8DA6A /* DataModel.xcdatamodeld in Sources */,
+				86203A3F1F45AE7000456C7C /* Flick+CoreDataProperties.m in Sources */,
 				867B119B1F3F530A003C0DF6 /* AppDelegate.m in Sources */,
+				861329431F468A1C00C1568A /* AlbumViewController.m in Sources */,
+				86203A3D1F45AE7000456C7C /* Pin+CoreDataProperties.m in Sources */,
 				867B11981F3F530A003C0DF6 /* main.m in Sources */,
 				867B11D01F3F58D5003C0DF6 /* CoreDataStack.m in Sources */,
-				861A30FD1F40F9D3009A3979 /* Pin+CoreDataClass.swift in Sources */,
-				861A31001F40F9D3009A3979 /* Coordinate+CoreDataProperties.swift in Sources */,
-				861A30FF1F40F9D3009A3979 /* Coordinate+CoreDataClass.swift in Sources */,
-				861A30FB1F40F9D3009A3979 /* Flick+CoreDataClass.swift in Sources */,
-				861A30FC1F40F9D3009A3979 /* Flick+CoreDataProperties.swift in Sources */,
+				86F0287F1F4475D7004E9299 /* VTAnnotation.m in Sources */,
 				862F408B1F421C73003076EE /* Networking.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -536,7 +548,6 @@
 		867B11C41F3F530A003C0DF6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				INFOPLIST_FILE = "VirtualTourist-ObCTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -549,7 +560,6 @@
 		867B11C51F3F530A003C0DF6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				INFOPLIST_FILE = "VirtualTourist-ObCTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -562,7 +572,6 @@
 		867B11C71F3F530A003C0DF6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				INFOPLIST_FILE = "VirtualTourist-ObCUITests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mitchsalcido.VirtualTourist-ObCUITests";
@@ -574,7 +583,6 @@
 		867B11C81F3F530A003C0DF6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				INFOPLIST_FILE = "VirtualTourist-ObCUITests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mitchsalcido.VirtualTourist-ObCUITests";

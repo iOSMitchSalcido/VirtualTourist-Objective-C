@@ -36,11 +36,30 @@
                     <navigationItem key="navigationItem" id="j1L-iA-7l6"/>
                     <connections>
                         <outlet property="mapView" destination="8AN-bu-EpF" id="bun-9p-JJJ"/>
+                        <segue destination="jrt-FK-Ka6" kind="show" identifier="AlbumViewControllerSegueID" id="spG-cV-B3b"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1076" y="138.98050974512745"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="mvD-Rw-5G3">
+            <objects>
+                <viewController storyboardIdentifier="AlbumViewControllerID" id="jrt-FK-Ka6" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="oE9-Qq-JAf"/>
+                        <viewControllerLayoutGuide type="bottom" id="c5c-ma-gsa"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="EAR-TO-oze">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZDO-P4-hws" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2046" y="139"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="AwL-P8-1hn">

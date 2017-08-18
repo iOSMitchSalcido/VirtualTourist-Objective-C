@@ -28,7 +28,10 @@
          if (error) {
              NSLog(@"error loading store: %@", error.localizedDescription);
          }
+         
+         self.container.viewContext.mergePolicy = [NSMergePolicy overwriteMergePolicy];
      }];
+    
     return _container;
 }
 

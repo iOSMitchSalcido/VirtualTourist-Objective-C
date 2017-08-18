@@ -10,6 +10,5 @@
 #import <CoreData/CoreData.h>
 @interface CoreDataStack : NSObject
 @property(nonatomic, strong) NSPersistentContainer *container;
-
 +(CoreDataStack *)shared;
 @end

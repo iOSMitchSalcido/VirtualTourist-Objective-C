@@ -19,8 +19,8 @@
 
 +(FlickrAPI *)shared {
     
+    // singleton
     static FlickrAPI *shared = nil;
-    
     dispatch_once_t onceToken = 0;
     dispatch_once(&onceToken, ^{
         shared = [[FlickrAPI alloc] init];
@@ -29,46 +29,68 @@
     return  shared;
 }
 
+// download an album from flickr
 - (void)downloadFlickrAlbumForLongitude:(double)longitude
                             andLatitude:(double)latitude
                              searchPage:(NSString *)page
                          withCompletion:(void (^)(NSArray *urlStrings, NSError *error))completion {
     
+    /*
+     Handle downloading an "album" of flicks from flickr.
+     
+     Method is intended to be called with searchPage nil. This method is called recursively, first pass
+     determines the number of pages returned from flickr, then a second pass with a random page as
+     searchPage.
+     */
+    
+    // params
     NSDictionary *params = [self createPhotoSearchParamsLongitude:longitude latitude:latitude searchPage:page];
 
+    // completion
     void (^taskCompletion)(NSDictionary *, NSError *);
     taskCompletion = ^(NSDictionary *data, NSError *error) {
         
+        // test error
         if (error != nil) {
             NSLog(@"error in downloadFlickr..");
             return;
         }
         
+        // test data
         if (data == nil) {
             NSLog(@"nil data");
             return;
         }
         
+        // test photos
         NSDictionary *photosDictionary = data[@"photos"];
         if (photosDictionary == nil) {
             NSLog(@"bad photos dictionary");
             return;
         }
         
+        // test for nil search page
         NSDictionary *searchItems = params[kNetworkItems];
         if (searchItems[@"page"] == nil) {
             
+            /*
+             searchPage was NOT a search param...proceed to compute a random
+             search page and call method again.
+             */
             NSString *pagesString = photosDictionary[@"pages"];
             NSString *perPageString = photosDictionary[@"perpage"];
             NSInteger pages = [pagesString integerValue];
             NSInteger perPage = [perPageString integerValue];
             NSInteger maxPages = kFlickrMaxImageReturn / perPage;
             
+            // test within bounds of available flicks
             if (pages <= maxPages)
                 maxPages = pages;
             
+            // random page
             NSInteger randomPage = arc4random_uniform((int)maxPages) + 1;
             
+            // new search
             [self downloadFlickrAlbumForLongitude:longitude
                                       andLatitude:latitude
                                        searchPage:[NSString stringWithFormat:@"%ld", (long)randomPage]
@@ -76,21 +98,29 @@
         }
         else {
             
+            /*
+             searchPage was a search param. Proceed to retrieve url strings for flicks. Place
+             url strings into an array and fire completion.
+             */
+            
+            // test photo array
             NSArray *photoArray = photosDictionary[@"photo"];
             if (photoArray == nil) {
                 NSLog(@"bad photo array");
                 return;
             }
             
+            // place url strings into array
             NSMutableArray *urlStringsArray = [[NSMutableArray alloc] init];
             for (NSDictionary *photoDictionary in photoArray) {
                 NSArray *keys = photoDictionary.allKeys;
                 for (NSString *key in keys) {
-                    if ([key isEqualToString:@"url_m"])
+                    if ([key isEqualToString:@"url_m"] && ([urlStringsArray count] <= kMaxImagesDesired))
                         [urlStringsArray addObject:photoDictionary[key]];
                 }
             }
             
+            // fire completion
             completion(urlStringsArray, nil);
         }
     };
@@ -98,8 +128,14 @@
     [self.networking dataTaskForParams:params withCompletion:taskCompletion];
 }
 
+// helper function to create params used by data task for flick search
 - (NSDictionary *)createPhotoSearchParamsLongitude:(double)lon latitude:(double)lat searchPage:(NSString *)page {
     
+    /*
+     Build params for network task using location, page, and constants defined below...
+     */
+    
+    // build base params
     NSMutableDictionary *searchItems = [[NSMutableDictionary alloc] init];
     searchItems[@"method"] = @"flickr.photos.search";
     searchItems[@"api_key"] = kApiKeyValue;
@@ -111,15 +147,18 @@
     searchItems[@"lat"] = [NSString stringWithFormat:@"%f", lat];
     searchItems[@"radius"] = kSearchRadius;
     
+    // include page search if non-nil
     if (page != nil)
         searchItems[@"page"] = page;
     
+    // return params for task
     return @{kNetworkItems: searchItems,
              kNetworkHost: @"api.flickr.com",
              kNetworkScheme: @"https",
              kNetworkPath: @"/services/rest"};
 }
 
+// getter for Networking
 - (Networking *)networking {
     
     if (_networking)

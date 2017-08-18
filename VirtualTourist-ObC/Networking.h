@@ -5,6 +5,13 @@
 //  Created by Online Training on 8/14/17.
 //  Copyright © 2017 Mitch Salcido. All rights reserved.
 //
+/*
+ About Networking:
+ 
+ Code for networking
+ - create/run dataTask
+ - Networking constants
+ */
 
 #import <Foundation/Foundation.h>
 
@@ -16,5 +23,7 @@
 
 // constants, values
 @interface Networking : NSObject
+
+// data task
 - (void)dataTaskForParams:(NSDictionary *)params withCompletion:(void (^)(NSDictionary *data, NSError *error))completion;
 @end
