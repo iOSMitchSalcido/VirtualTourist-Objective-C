@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Pin+CoreDataClass.h"
+
+#define kCellSpacing    2.0
+#define kCellsPerRow    4.0
 
 @interface AlbumViewController : UIViewController
-
+@property (nonatomic, strong) Pin *pin;
 @end

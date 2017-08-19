@@ -17,7 +17,11 @@
 // run a data task using parameters and completion
 - (void)dataTaskForParams:(NSDictionary *)params withCompletion:(void (^)(NSDictionary *data, NSError *error))completion {
 
-    // task completion block
+    /*
+     handle creation and running of a data task
+     */
+     
+    // task completion block for NSURLSessionDataTask, below
     void (^taskCompletion)(NSData *, NSURLResponse *, NSError *);
     taskCompletion = ^(NSData *data, NSURLResponse *response, NSError *error) {
         

@@ -27,7 +27,7 @@
  method to download an "album" of flicks.
  longitude/latitude: geo search params, required
  searchPage: !! use nil for random page search !!
- completion: returns an array of url strings which are url's to flicks.
+ completion: returns an array of strings which are url's to flicks.
 */
 - (void)downloadFlickrAlbumForLongitude:(double)longitude
                             andLatitude:(double)latitude

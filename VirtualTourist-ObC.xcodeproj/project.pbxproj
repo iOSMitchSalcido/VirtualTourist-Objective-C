@@ -26,6 +26,8 @@
 		867B11CB1F3F55C3003C0DF6 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 867B11CA1F3F55C3003C0DF6 /* MapKit.framework */; };
 		867B11CD1F3F55D4003C0DF6 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 867B11CC1F3F55D4003C0DF6 /* CoreData.framework */; };
 		867B11D01F3F58D5003C0DF6 /* CoreDataStack.m in Sources */ = {isa = PBXBuildFile; fileRef = 867B11CF1F3F58D5003C0DF6 /* CoreDataStack.m */; };
+		86AC8A061F47DD4800E8EA79 /* UIViewController+Flickr_Alert.m in Sources */ = {isa = PBXBuildFile; fileRef = 86AC8A051F47DD4800E8EA79 /* UIViewController+Flickr_Alert.m */; };
+		86D3FE991F48852D00EC4327 /* FlickCVCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 86D3FE981F48852D00EC4327 /* FlickCVCell.m */; };
 		86F0287F1F4475D7004E9299 /* VTAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 86F0287E1F4475D7004E9299 /* VTAnnotation.m */; };
 /* End PBXBuildFile section */
 
@@ -83,6 +85,10 @@
 		867B11CC1F3F55D4003C0DF6 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		867B11CE1F3F58D5003C0DF6 /* CoreDataStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataStack.h; sourceTree = "<group>"; };
 		867B11CF1F3F58D5003C0DF6 /* CoreDataStack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataStack.m; sourceTree = "<group>"; };
+		86AC8A041F47DD4800E8EA79 /* UIViewController+Flickr_Alert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Flickr_Alert.h"; sourceTree = "<group>"; };
+		86AC8A051F47DD4800E8EA79 /* UIViewController+Flickr_Alert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Flickr_Alert.m"; sourceTree = "<group>"; };
+		86D3FE971F48852D00EC4327 /* FlickCVCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlickCVCell.h; sourceTree = "<group>"; };
+		86D3FE981F48852D00EC4327 /* FlickCVCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlickCVCell.m; sourceTree = "<group>"; };
 		86F0287D1F4475D7004E9299 /* VTAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VTAnnotation.h; sourceTree = "<group>"; };
 		86F0287E1F4475D7004E9299 /* VTAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VTAnnotation.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -183,6 +189,10 @@
 				867B11A41F3F530A003C0DF6 /* LaunchScreen.storyboard */,
 				867B11A71F3F530A003C0DF6 /* Info.plist */,
 				867B11961F3F530A003C0DF6 /* Supporting Files */,
+				86AC8A041F47DD4800E8EA79 /* UIViewController+Flickr_Alert.h */,
+				86AC8A051F47DD4800E8EA79 /* UIViewController+Flickr_Alert.m */,
+				86D3FE971F48852D00EC4327 /* FlickCVCell.h */,
+				86D3FE981F48852D00EC4327 /* FlickCVCell.m */,
 			);
 			path = "VirtualTourist-ObC";
 			sourceTree = "<group>";
@@ -365,6 +375,8 @@
 				86203A3F1F45AE7000456C7C /* Flick+CoreDataProperties.m in Sources */,
 				867B119B1F3F530A003C0DF6 /* AppDelegate.m in Sources */,
 				861329431F468A1C00C1568A /* AlbumViewController.m in Sources */,
+				86D3FE991F48852D00EC4327 /* FlickCVCell.m in Sources */,
+				86AC8A061F47DD4800E8EA79 /* UIViewController+Flickr_Alert.m in Sources */,
 				86203A3D1F45AE7000456C7C /* Pin+CoreDataProperties.m in Sources */,
 				867B11981F3F530A003C0DF6 /* main.m in Sources */,
 				867B11D01F3F58D5003C0DF6 /* CoreDataStack.m in Sources */,

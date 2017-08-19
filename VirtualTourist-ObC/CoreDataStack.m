@@ -35,6 +35,14 @@
     return _container;
 }
 
+- (void)save {
+
+    NSError *error = nil;
+    if (![self.container.viewContext save:&error]) {
+        NSLog(@"bad save");
+    }
+}
+
 +(CoreDataStack *)shared {
     
     static CoreDataStack *shared = nil;

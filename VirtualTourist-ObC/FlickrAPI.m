@@ -39,8 +39,9 @@
      Handle downloading an "album" of flicks from flickr.
      
      Method is intended to be called with searchPage nil. This method is called recursively, first pass
-     determines the number of pages returned from flickr, then a second pass with a random page as
-     searchPage.
+     determines the number of pages returned from flickr. A random page is selected based on number of
+     pages returned, and then this function is called with searchPage set to NSString representation of
+     the random page.
      */
     
     // params

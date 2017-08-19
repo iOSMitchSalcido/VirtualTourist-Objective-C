@@ -11,4 +11,5 @@
 @interface CoreDataStack : NSObject
 @property(nonatomic, strong) NSPersistentContainer *container;
 +(CoreDataStack *)shared;
+- (void)save;
 @end
