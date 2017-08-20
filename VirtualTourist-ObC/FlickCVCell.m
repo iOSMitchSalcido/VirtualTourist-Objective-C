@@ -23,7 +23,7 @@
 
 - (void)downloadingNewFlick {
     
-    _imageView.image = nil;
+    _imageView.image = [UIImage imageNamed:@"DefaultCVCellImage"];
     [_activityIndicator startAnimating];
 }
 @end

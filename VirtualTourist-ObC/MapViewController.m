@@ -67,6 +67,12 @@
     }
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+
+    [self.navigationController setToolbarHidden:YES];
+}
+
 // prep for segueu
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
