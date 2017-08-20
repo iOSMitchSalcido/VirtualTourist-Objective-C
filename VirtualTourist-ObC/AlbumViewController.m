@@ -51,15 +51,23 @@
                                       widthForCellsInRow / kCellsPerRow);
 }
 
+#pragma mark - CollectionView DataSource Methods
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return 100;
+    
+    return _frc.fetchedObjects.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     FlickCVCell *cell = (FlickCVCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"FlickCVCellID" forIndexPath:indexPath];
     
-    [cell downloadingNewFlick];
+    Flick *flick = [_frc objectAtIndexPath:indexPath];
+    if (flick.imageData) {
+        [cell updateFlick:[UIImage imageWithData:flick.imageData]];
+    }
+    else {
+        [cell downloadingNewFlick];
+    }
     
     return cell;
 }

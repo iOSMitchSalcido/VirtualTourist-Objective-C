@@ -59,7 +59,14 @@
         
         // test data
         if (data == nil) {
-            NSLog(@"nil data");
+            if (page == nil) {
+                NSLog(@"page == nil");
+            }
+            else {
+                NSLog(@"page == non-nil");
+            }
+            
+            NSLog(@"downloadFlickrAlbum data == nil");
             return;
         }
         
@@ -116,7 +123,7 @@
             for (NSDictionary *photoDictionary in photoArray) {
                 NSArray *keys = photoDictionary.allKeys;
                 for (NSString *key in keys) {
-                    if ([key isEqualToString:@"url_m"] && ([urlStringsArray count] <= kMaxImagesDesired))
+                    if ([key isEqualToString:@"url_m"] && ([urlStringsArray count] <= (kMaxImagesDesired - 1)))
                         [urlStringsArray addObject:photoDictionary[key]];
                 }
             }

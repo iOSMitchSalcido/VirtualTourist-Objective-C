@@ -39,7 +39,7 @@
 
     NSError *error = nil;
     if (![self.container.viewContext save:&error]) {
-        NSLog(@"bad save");
+        NSLog(@"bad viewContext save");
     }
 }
 

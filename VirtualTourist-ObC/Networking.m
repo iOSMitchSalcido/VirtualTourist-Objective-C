@@ -44,20 +44,16 @@
             NSLog(@"bad/missing data returned");
             return;
         }
+            
+        NSError *jsonSerialError = nil;
+        NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data
+                                                             options:NSJSONReadingAllowFragments
+                                                               error:&jsonSerialError];
         
-        // convert data to dictionary
-        if ([NSJSONSerialization isValidJSONObject:data]) {
-            
-            NSError *jsonSerialError = nil;
-            NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data
-                                                                 options:NSJSONReadingAllowFragments
-                                                                   error:&jsonSerialError];
-            
+        if (json)
             completion(json, nil);
-        }
-        else {
+        else
             completion(nil, nil);
-        }
     };
     
     // test for good URL

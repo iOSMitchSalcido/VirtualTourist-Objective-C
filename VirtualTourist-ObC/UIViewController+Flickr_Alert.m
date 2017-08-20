@@ -37,8 +37,8 @@
             void (^save)(void);
             save = ^{
                 NSError *saveError = nil;
-                if ([privateContext save:&saveError]) {
-                    NSLog(@"error saving new flick");
+                if (![privateContext save:&saveError]) {
+                    NSLog(@"error saving privateContext");
                 }
                 else {
                     [CoreDataStack.shared save];
@@ -104,6 +104,7 @@
                     if (imageData) {
                         
                         flick.imageData = imageData;
+                        save();
                     }
                 }
             }

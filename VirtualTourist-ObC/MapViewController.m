@@ -10,7 +10,6 @@
 #import "AlbumViewController.h"
 #import "UIViewController+Flickr_Alert.h"
 #import <MapKit/MapKit.h>
-#import "FlickrAPI.h"
 #import "VTAnnotation.h"
 #import "CoreDataStack.h"
 
@@ -249,8 +248,8 @@
         else {
             
             // good save.. assign pin to annotation and begin album download
-            // TODO: TODO: download album
             annotation.pin = newPin;
+            [self downloadAlbumForPin:newPin];
         }
     };
 
