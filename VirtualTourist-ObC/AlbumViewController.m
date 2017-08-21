@@ -21,6 +21,8 @@ typedef enum {
     NoFlicks
 } ViewMode;
 
+typedef void (^frcBlockOp)(void);
+
 @interface AlbumViewController () <UICollectionViewDataSource, UICollectionViewDelegate, NSFetchedResultsControllerDelegate>
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet UICollectionViewFlowLayout *flowLayout;
@@ -30,6 +32,8 @@ typedef enum {
 @property (nonatomic, strong) UIProgressView *progressView;
 @property (nonatomic, strong) UIBarButtonItem *trashBbi;
 @property (nonatomic) ViewMode viewMode;
+
+@property (nonatomic, strong) NSMutableArray *frcCvBlockOpsArray;
 
 // return progress of Flick download
 - (float)downloadProgress;
@@ -134,6 +138,8 @@ typedef enum {
 #pragma mark - NSFetchedResultsController Delegate Methods
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
     NSLog(@"willChangeContent");
+    
+    _frcCvBlockOpsArray = [[NSMutableArray alloc] init];
 }
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath {
@@ -141,41 +147,20 @@ typedef enum {
     switch (type) {
         case NSFetchedResultsChangeInsert: {
             NSLog(@"insert");
-            if (indexPath) {
-                NSLog(@"IndexPath: %ld", (long)indexPath.row);
-            }
-            else {
-                NSLog(@"nil indexPath");
-            }
             
-            if (newIndexPath) {
-                NSLog(@"newIndexPath: %ld", (long)newIndexPath.row);
-            }
-            else {
-                NSLog(@"nil newIndexPath");
-            }
-            
-            [_collectionView reloadData];
+            frcBlockOp blockOp = ^{
+                [_collectionView insertItemsAtIndexPaths:@[newIndexPath]];
+            };
+            [_frcCvBlockOpsArray addObject:blockOp];
         }
             break;
         case NSFetchedResultsChangeDelete: {
             NSLog(@"delete");
             
-            if (indexPath) {
-                NSLog(@"IndexPath: %ld", (long)indexPath.row);
-            }
-            else {
-                NSLog(@"nil indexPath");
-            }
-            
-            if (newIndexPath) {
-                NSLog(@"newIndexPath: %ld", (long)newIndexPath.row);
-            }
-            else {
-                NSLog(@"nil newIndexPath");
-            }
-            
-            [_collectionView reloadData];
+            frcBlockOp blockOp = ^{
+                [_collectionView deleteItemsAtIndexPaths:@[indexPath]];
+            };
+            [_frcCvBlockOpsArray addObject:blockOp];
         }
             break;
         case NSFetchedResultsChangeMove: {
@@ -184,48 +169,32 @@ typedef enum {
             break;
         case NSFetchedResultsChangeUpdate: {
             NSLog(@"update");
-            FlickCVCell *cell = (FlickCVCell *)[_collectionView cellForItemAtIndexPath:indexPath];
-            Flick *flick = [self.frc objectAtIndexPath:indexPath];
-            if (flick.imageData)
-                [cell updateFlick:[UIImage imageWithData:flick.imageData]];
-            else
-                [cell downloadingNewFlick];
+            
+            frcBlockOp blockOp = ^{
+                
+                [_collectionView reloadItemsAtIndexPaths:@[indexPath]];
+                
+                if ([self downloadProgress] >= 1.0) {
+                    _viewMode = Normal;
+                    [self configureViewMode];
+                }
+            };
+            [_frcCvBlockOpsArray addObject:blockOp];
         }
             break;
     }
 }
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
+    
     NSLog(@"didChangeContent");
     
-    switch (_viewMode) {
-        case Predownloading: {
-
-            if ([self downloadProgress] > 0) {
-                _viewMode = Downloading;
-                [self configureViewMode];
-            }
+    [_collectionView performBatchUpdates:^{
+        
+        for (frcBlockOp blockOp in _frcCvBlockOpsArray) {
+            blockOp();
         }
-        case Downloading: {
-            
-            float progress = [self downloadProgress];
-            [_progressView setProgress:progress animated:YES];
-            
-            if (progress >= 1.0) {
-                
-                _viewMode = Normal;
-                [self configureViewMode];
-                
-                [_collectionView reloadData];
-                
-                [_progressView setHidden:YES];
-            }
-        }
-            break;
-        default:
-            break;
-    }
-    [_progressView setProgress:[self downloadProgress] animated:YES];
+    } completion:nil];
 }
 
 #pragma mark - Object Getters
