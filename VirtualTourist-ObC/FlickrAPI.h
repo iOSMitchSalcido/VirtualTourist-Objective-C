@@ -16,7 +16,7 @@
 #define kApiKeyValue     @"3bc85d1817c25bfd73b8a05ff26a01c3"    // Flickr Key
 #define kSearchRadius    @"10.0"                                // search radius
 #define kFlickrMaxImageReturn   4000    // max image that Flickr will return
-#define kMaxImagesDesired       200     // max images that want to return
+#define kMaxImagesDesired       30     // max images that want to return
 
 @interface FlickrAPI : NSObject
 

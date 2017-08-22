@@ -93,6 +93,11 @@ typedef void (^frcBlockOp)(void);
     _frc = nil;
 }
 
+- (void)dealloc {
+
+    NSLog(@"dealloc Pin: %@:", _pin.title);
+}
+
 - (void)viewWillLayoutSubviews {
     [super viewWillLayoutSubviews];
  
