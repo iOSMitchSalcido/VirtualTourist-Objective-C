@@ -174,25 +174,17 @@
 		867B11951F3F530A003C0DF6 /* VirtualTourist-ObC */ = {
 			isa = PBXGroup;
 			children = (
-				862F40881F421C5C003076EE /* Networking */,
-				865F00A21F3FA38B00A8DA6A /* CoreData */,
 				867B11991F3F530A003C0DF6 /* AppDelegate.h */,
 				867B119A1F3F530A003C0DF6 /* AppDelegate.m */,
-				867B119C1F3F530A003C0DF6 /* MapViewController.h */,
-				867B119D1F3F530A003C0DF6 /* MapViewController.m */,
-				861329411F468A1C00C1568A /* AlbumViewController.h */,
-				861329421F468A1C00C1568A /* AlbumViewController.m */,
-				86F0287D1F4475D7004E9299 /* VTAnnotation.h */,
-				86F0287E1F4475D7004E9299 /* VTAnnotation.m */,
-				867B119F1F3F530A003C0DF6 /* Main.storyboard */,
-				867B11A21F3F530A003C0DF6 /* Assets.xcassets */,
-				867B11A41F3F530A003C0DF6 /* LaunchScreen.storyboard */,
 				867B11A71F3F530A003C0DF6 /* Info.plist */,
+				862F40881F421C5C003076EE /* Networking */,
+				865F00A21F3FA38B00A8DA6A /* CoreData */,
+				86A98A5F1F4B6A0200C35A01 /* ViewControllers */,
+				86A98A601F4B6A5200C35A01 /* ViewSubclasses */,
+				867B119F1F3F530A003C0DF6 /* Main.storyboard */,
+				867B11A41F3F530A003C0DF6 /* LaunchScreen.storyboard */,
+				867B11A21F3F530A003C0DF6 /* Assets.xcassets */,
 				867B11961F3F530A003C0DF6 /* Supporting Files */,
-				86AC8A041F47DD4800E8EA79 /* UIViewController+Flickr_Alert.h */,
-				86AC8A051F47DD4800E8EA79 /* UIViewController+Flickr_Alert.m */,
-				86D3FE971F48852D00EC4327 /* FlickCVCell.h */,
-				86D3FE981F48852D00EC4327 /* FlickCVCell.m */,
 			);
 			path = "VirtualTourist-ObC";
 			sourceTree = "<group>";
@@ -230,6 +222,30 @@
 				867B11CA1F3F55C3003C0DF6 /* MapKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		86A98A5F1F4B6A0200C35A01 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				867B119C1F3F530A003C0DF6 /* MapViewController.h */,
+				867B119D1F3F530A003C0DF6 /* MapViewController.m */,
+				861329411F468A1C00C1568A /* AlbumViewController.h */,
+				861329421F468A1C00C1568A /* AlbumViewController.m */,
+				86AC8A041F47DD4800E8EA79 /* UIViewController+Flickr_Alert.h */,
+				86AC8A051F47DD4800E8EA79 /* UIViewController+Flickr_Alert.m */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		86A98A601F4B6A5200C35A01 /* ViewSubclasses */ = {
+			isa = PBXGroup;
+			children = (
+				86F0287D1F4475D7004E9299 /* VTAnnotation.h */,
+				86F0287E1F4475D7004E9299 /* VTAnnotation.m */,
+				86D3FE971F48852D00EC4327 /* FlickCVCell.h */,
+				86D3FE981F48852D00EC4327 /* FlickCVCell.m */,
+			);
+			name = ViewSubclasses;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

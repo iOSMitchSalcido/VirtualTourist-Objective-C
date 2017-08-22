@@ -41,10 +41,15 @@ typedef void (^frcBlockOp)(void);
 // configure view mode
 - (void)configureViewMode;
 
+// return state of ViewMode
+- (ViewMode)viewModeState;
+
 // UIBarButtonItem action methods
 - (void)trashBbiPressed:(id)sender;
 - (void)reloadAlbumBbiPressed:(id)sender;
 - (void)shareFlickBbiPressed:(id)sender;
+
+- (void)debugBbiPressed:(id)sender;
 @end
 
 @implementation AlbumViewController
@@ -70,16 +75,11 @@ typedef void (^frcBlockOp)(void);
     }
     else {
         
-        if (_pin.isDownloading && (self.frc.fetchedObjects.count == 0)) {
-            _viewMode = Predownloading;
-        }
-        else if (_pin.isDownloading && (self.frc.fetchedObjects.count > 0)) {
-            _viewMode = Downloading;
-        }
-        else if (_pin.noFlicksAtLocation) {
-            _viewMode = NoFlicks;
-        }
-        else
+        if (_pin.noFlicksAtLocation)
+            NSLog(@"noFlicks");
+        
+        _viewMode = Predownloading;
+        if ([_pin downloadComplete])
             _viewMode = Normal;
         
         [self configureViewMode];
@@ -90,6 +90,7 @@ typedef void (^frcBlockOp)(void);
     [super viewWillDisappear: animated];
     
     [_progressView removeFromSuperview];
+    _frc = nil;
 }
 
 - (void)viewWillLayoutSubviews {
@@ -112,7 +113,7 @@ typedef void (^frcBlockOp)(void);
 #pragma mark - CollectionView DataSource Methods
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     
-    return _frc.fetchedObjects.count;
+    return self.frc.fetchedObjects.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -137,16 +138,22 @@ typedef void (^frcBlockOp)(void);
 
 #pragma mark - NSFetchedResultsController Delegate Methods
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
-    NSLog(@"willChangeContent");
+    NSLog(@"willChangeContent: %@", _pin.title);
     
     _frcCvBlockOpsArray = [[NSMutableArray alloc] init];
+
+    if ((_viewMode == Predownloading) && (_pin.flicks.count > 0)) {
+        
+        _viewMode = Downloading;
+        [self configureViewMode];
+    }
 }
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath {
     
     switch (type) {
         case NSFetchedResultsChangeInsert: {
-            NSLog(@"insert");
+            //NSLog(@"insert");
             
             frcBlockOp blockOp = ^{
                 [_collectionView insertItemsAtIndexPaths:@[newIndexPath]];
@@ -155,7 +162,7 @@ typedef void (^frcBlockOp)(void);
         }
             break;
         case NSFetchedResultsChangeDelete: {
-            NSLog(@"delete");
+            //NSLog(@"delete");
             
             frcBlockOp blockOp = ^{
                 [_collectionView deleteItemsAtIndexPaths:@[indexPath]];
@@ -168,16 +175,10 @@ typedef void (^frcBlockOp)(void);
         }
             break;
         case NSFetchedResultsChangeUpdate: {
-            NSLog(@"update");
+            //NSLog(@"update");
             
             frcBlockOp blockOp = ^{
-                
                 [_collectionView reloadItemsAtIndexPaths:@[indexPath]];
-                
-                if ([self downloadProgress] >= 1.0) {
-                    _viewMode = Normal;
-                    [self configureViewMode];
-                }
             };
             [_frcCvBlockOpsArray addObject:blockOp];
         }
@@ -187,7 +188,7 @@ typedef void (^frcBlockOp)(void);
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
     
-    NSLog(@"didChangeContent");
+    //NSLog(@"didChangeContent");
     
     [_collectionView performBatchUpdates:^{
         
@@ -195,10 +196,19 @@ typedef void (^frcBlockOp)(void);
             blockOp();
         }
     } completion:nil];
+    
+    [_progressView setProgress:[self downloadProgress]
+                      animated:YES];
+    
+    if ([self downloadProgress] >= 1.0) {
+        _viewMode = Normal;
+        [self configureViewMode];
+    }
 }
 
 #pragma mark - Object Getters
 - (NSFetchedResultsController *)frc {
+    
     if (_frc)
         return _frc;
     
@@ -219,6 +229,25 @@ typedef void (^frcBlockOp)(void);
 }
 
 #pragma mark - Helper Methods
+// return state of ViewMode
+- (ViewMode)viewModeState {
+ 
+    if (_pin.isDownloading && (self.frc.fetchedObjects.count == 0)) {
+        NSLog(@"predownloaing");
+        return Predownloading;
+    }
+    else if (_pin.isDownloading && (self.frc.fetchedObjects.count > 0)) {
+        NSLog(@"downloading");
+        return Downloading;
+    }
+    else if (_pin.noFlicksAtLocation) {
+        NSLog(@"noFlicks");
+        return NoFlicks;
+    }
+    
+    return Normal;
+}
+
 // return progress of Flick download
 - (float)downloadProgress {
     
@@ -272,6 +301,8 @@ typedef void (^frcBlockOp)(void);
             break;
         case Normal: {
             
+            [_progressView setHidden:YES];
+
             if (self.frc.fetchedObjects.count > 0)
                 [self.navigationItem setRightBarButtonItem:self.editButtonItem animated:YES];
             else
@@ -282,7 +313,13 @@ typedef void (^frcBlockOp)(void);
                                           target:self
                                           action:@selector(reloadAlbumBbiPressed:)];
             
-            [self setToolbarItems:@[flexBbi, reloadBbi] animated:YES];
+            UIBarButtonItem *debugBbi = [[UIBarButtonItem alloc]
+                                         initWithTitle:@"debug"
+                                         style:UIBarButtonItemStylePlain
+                                         target:self
+                                         action:@selector(debugBbiPressed:)];
+            
+            [self setToolbarItems:@[debugBbi, flexBbi, reloadBbi] animated:YES];
             [self.navigationItem setLeftBarButtonItem:nil animated:YES];
         }
             break;
@@ -353,7 +390,6 @@ typedef void (^frcBlockOp)(void);
                 else {
                     dispatch_async(dispatch_get_main_queue(), ^{
                         _viewMode = Predownloading;
-                        //[_collectionView reloadData];
                         [self configureViewMode];
                         [self downloadAlbumForPin:_pin];
                     });
@@ -364,5 +400,18 @@ typedef void (^frcBlockOp)(void);
 }
 - (void)shareFlickBbiPressed:(id)sender {
     NSLog(@"shareFlickBbiPressed");
+}
+
+- (void)debugBbiPressed:(id)sender {
+    
+    NSLog(@"debugBbiPressed");
+    
+    _pin.noFlicksAtLocation = !_pin.noFlicksAtLocation;
+    
+    NSManagedObjectContext *context = [CoreDataStack.shared.container viewContext];
+    NSError *error = nil;
+    if (![context save:&error]) {
+        NSLog(@"bad save");
+    }
 }
 @end

@@ -59,7 +59,7 @@
             }
             
             /*
-             FLickr data and flick creation if performed in two passes. The first pass is to simply retrieve
+             Flickr data and flick creation if performed in two passes. The first pass is to simply retrieve
              the urlString array returned from API call (data) and then create Flick MO's using urlString.
              Upon saving, this will trigger an FRC attached to Pin to reload a collectionView with empty
              placehold default images.
@@ -132,7 +132,7 @@
         void (^save)(void);
         save = ^{
             NSError *saveError = nil;
-            if ([privateContext save:&saveError]) {
+            if (![privateContext save:&saveError]) {
                 NSLog(@"error saving new flick");
             }
             else {
@@ -144,7 +144,12 @@
         privatePin.isDownloading = YES;
         save();
         
-        for (Flick *flick in privatePin.flicks) {
+        NSSortDescriptor *sortDesc = [NSSortDescriptor sortDescriptorWithKey:@"urlString"
+                                                                   ascending:true
+                                                                    selector:@selector(caseInsensitiveCompare:)];
+        NSArray *sortedFlicks = [privatePin.flicks sortedArrayUsingDescriptors:@[sortDesc]];
+        
+        for (Flick *flick in sortedFlicks) {
             
             if (!flick.imageData) {
                 

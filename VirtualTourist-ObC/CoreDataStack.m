@@ -37,10 +37,12 @@
 
 - (void)save {
 
-    NSError *error = nil;
-    if (![self.container.viewContext save:&error]) {
-        NSLog(@"bad viewContext save");
-    }
+    [self.container.viewContext performBlockAndWait:^{
+        NSError *error = nil;
+        if (![self.container.viewContext save:&error]) {
+            NSLog(@"bad viewContext save");
+        }
+    }];
 }
 
 +(CoreDataStack *)shared {

@@ -14,7 +14,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface Pin : NSManagedObject
-
+@property (nonatomic, readonly) BOOL downloadComplete;
 @end
 
 NS_ASSUME_NONNULL_END

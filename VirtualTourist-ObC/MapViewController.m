@@ -63,6 +63,9 @@
         for (Pin *pin in Pins) {
             VTAnnotation *annotation = [self annotationForPin:pin];
             [_mapView addAnnotation:annotation];
+            
+            if (!pin.downloadComplete)
+                [self resumeAlbumDownloadForPin:pin];
         }
     }
 }
@@ -256,6 +259,7 @@
             // good save.. assign pin to annotation and begin album download
             annotation.pin = newPin;
             [self downloadAlbumForPin:newPin];
+            [self performSegueWithIdentifier:@"AlbumViewControllerSegueID" sender:newPin];
         }
     };
 
