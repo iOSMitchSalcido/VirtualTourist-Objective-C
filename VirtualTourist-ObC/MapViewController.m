@@ -76,6 +76,13 @@
     [self.navigationController setToolbarHidden:YES];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    NSUInteger controllerCount = [self.navigationController.viewControllers count];
+    NSLog(@"countrollerCount: %lu", (unsigned long)controllerCount);
+}
+
 // prep for segueu
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     

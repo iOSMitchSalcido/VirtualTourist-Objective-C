@@ -21,7 +21,7 @@ typedef enum {
     NoFlicks
 } ViewMode;
 
-typedef void (^frcBlockOp)(void);
+typedef void (^FrcBlockOp)(void);
 
 @interface AlbumViewController () <UICollectionViewDataSource, UICollectionViewDelegate, NSFetchedResultsControllerDelegate>
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
@@ -57,6 +57,9 @@ typedef void (^frcBlockOp)(void);
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    NSLog(@"viewDidLoad");
+    NSLog(@"self %@", self);
+    
     self.title = _pin.title;
     
     [_noFlicksImageView setHidden:YES];
@@ -89,12 +92,18 @@ typedef void (^frcBlockOp)(void);
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear: animated];
     
+    NSLog(@"viewWillDisappear");
     [_progressView removeFromSuperview];
-    _frc = nil;
+    _frc.delegate = nil;
+    _frcCvBlockOpsArray = nil;
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    
 }
 
 - (void)dealloc {
-
     NSLog(@"dealloc Pin: %@:", _pin.title);
 }
 
@@ -146,7 +155,7 @@ typedef void (^frcBlockOp)(void);
     NSLog(@"willChangeContent: %@", _pin.title);
     
     _frcCvBlockOpsArray = [[NSMutableArray alloc] init];
-
+    
     if ((_viewMode == Predownloading) && (_pin.flicks.count > 0)) {
         
         _viewMode = Downloading;
@@ -160,7 +169,7 @@ typedef void (^frcBlockOp)(void);
         case NSFetchedResultsChangeInsert: {
             //NSLog(@"insert");
             
-            frcBlockOp blockOp = ^{
+            FrcBlockOp blockOp = ^{
                 [_collectionView insertItemsAtIndexPaths:@[newIndexPath]];
             };
             [_frcCvBlockOpsArray addObject:blockOp];
@@ -169,7 +178,7 @@ typedef void (^frcBlockOp)(void);
         case NSFetchedResultsChangeDelete: {
             //NSLog(@"delete");
             
-            frcBlockOp blockOp = ^{
+            FrcBlockOp blockOp = ^{
                 [_collectionView deleteItemsAtIndexPaths:@[indexPath]];
             };
             [_frcCvBlockOpsArray addObject:blockOp];
@@ -182,7 +191,7 @@ typedef void (^frcBlockOp)(void);
         case NSFetchedResultsChangeUpdate: {
             //NSLog(@"update");
             
-            frcBlockOp blockOp = ^{
+            FrcBlockOp blockOp = ^{
                 [_collectionView reloadItemsAtIndexPaths:@[indexPath]];
             };
             [_frcCvBlockOpsArray addObject:blockOp];
@@ -197,7 +206,7 @@ typedef void (^frcBlockOp)(void);
     
     [_collectionView performBatchUpdates:^{
         
-        for (frcBlockOp blockOp in _frcCvBlockOpsArray) {
+        for (FrcBlockOp blockOp in _frcCvBlockOpsArray) {
             blockOp();
         }
     } completion:nil];
