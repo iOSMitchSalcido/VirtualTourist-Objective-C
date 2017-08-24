@@ -57,9 +57,6 @@ typedef void (^FrcBlockOp)(void);
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    NSLog(@"viewDidLoad");
-    NSLog(@"self %@", self);
-    
     self.title = _pin.title;
     
     [_noFlicksImageView setHidden:YES];
@@ -77,12 +74,11 @@ typedef void (^FrcBlockOp)(void);
         NSLog(@"bad frc fetch");
     }
     else {
-        
-        if (_pin.noFlicksAtLocation)
-            NSLog(@"noFlicks");
-        
+
         _viewMode = Predownloading;
-        if ([_pin downloadComplete])
+        if (_pin.noFlicksAtLocation)
+            _viewMode = NoFlicks;
+        else if ([_pin downloadComplete])
             _viewMode = Normal;
         
         [self configureViewMode];
@@ -92,19 +88,13 @@ typedef void (^FrcBlockOp)(void);
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear: animated];
     
-    NSLog(@"viewWillDisappear");
+    // remove progressView..otherwise will still be on navbar when VC popped
     [_progressView removeFromSuperview];
+    
+    // nil frc delegate and array..blocks in array preventing VC to dealloc..holding ref
+    // to CV/VC
     _frc.delegate = nil;
     _frcCvBlockOpsArray = nil;
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-    
-}
-
-- (void)dealloc {
-    NSLog(@"dealloc Pin: %@:", _pin.title);
 }
 
 - (void)viewWillLayoutSubviews {
