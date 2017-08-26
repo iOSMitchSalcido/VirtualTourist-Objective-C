@@ -11,4 +11,5 @@
 @interface FlickCVCell : UICollectionViewCell
 - (void)updateFlick:(UIImage *)flick;
 - (void)downloadingNewFlick;
+- (void)updateCellSelectedState:(BOOL)selected;
 @end

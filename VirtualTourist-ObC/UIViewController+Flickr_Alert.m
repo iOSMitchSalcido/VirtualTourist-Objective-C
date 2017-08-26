@@ -170,4 +170,21 @@
         save();
     }];
 }
+
+- (void)presentAlertWithTitle:(NSString *)title andMessage:(NSString *)message {
+    
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title
+                                                                             message:message
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *action = [UIAlertAction actionWithTitle:@"OK"
+                                                     style:UIAlertActionStyleDefault
+                                                   handler:nil];
+    
+    [alertController addAction:action];
+    
+    [self presentViewController:alertController
+                       animated:true
+                     completion:nil];
+}
+
 @end

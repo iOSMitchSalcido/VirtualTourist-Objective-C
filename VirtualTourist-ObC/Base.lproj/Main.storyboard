@@ -93,6 +93,9 @@
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="So9-TN-yD6">
                                                     <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                                 </imageView>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="CollectionCellSelectionCheckMark40pt" translatesAutoresizingMaskIntoConstraints="NO" id="0ap-5u-lao">
+                                                    <rect key="frame" x="5" y="5" width="40" height="40"/>
+                                                </imageView>
                                                 <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="25W-t2-nFo">
                                                     <rect key="frame" x="15" y="15" width="20" height="20"/>
                                                 </activityIndicatorView>
@@ -105,10 +108,13 @@
                                             <constraint firstItem="So9-TN-yD6" firstAttribute="leading" secondItem="NQU-EM-hfH" secondAttribute="leading" id="O8u-Vj-O4q"/>
                                             <constraint firstItem="25W-t2-nFo" firstAttribute="centerY" secondItem="NQU-EM-hfH" secondAttribute="centerY" id="Oy7-QX-Y2J"/>
                                             <constraint firstItem="So9-TN-yD6" firstAttribute="top" secondItem="NQU-EM-hfH" secondAttribute="top" id="eGw-s2-jVA"/>
+                                            <constraint firstAttribute="bottom" secondItem="0ap-5u-lao" secondAttribute="bottom" constant="5" id="eZ6-W2-ENv"/>
                                             <constraint firstAttribute="trailing" secondItem="So9-TN-yD6" secondAttribute="trailing" id="n4b-yF-kZr"/>
+                                            <constraint firstAttribute="trailing" secondItem="0ap-5u-lao" secondAttribute="trailing" constant="5" id="uu3-ZN-BFw"/>
                                         </constraints>
                                         <connections>
                                             <outlet property="activityIndicator" destination="25W-t2-nFo" id="ZKe-mc-uQs"/>
+                                            <outlet property="checkmarkImageView" destination="0ap-5u-lao" id="oNz-VL-bov"/>
                                             <outlet property="imageView" destination="So9-TN-yD6" id="VkF-Sd-7Qv"/>
                                         </connections>
                                     </collectionViewCell>
@@ -121,7 +127,7 @@
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Bxo-yW-Yix">
                                 <rect key="frame" x="142" y="266" width="37" height="37"/>
                             </activityIndicatorView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="SEj-Vs-iAZ">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="SEj-Vs-iAZ">
                                 <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </imageView>
@@ -171,6 +177,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="CollectionCellSelectionCheckMark40pt" width="40" height="40"/>
         <image name="MapNavTitleImage" width="128" height="33"/>
     </resources>
 </document>

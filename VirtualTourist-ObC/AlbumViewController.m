@@ -18,7 +18,8 @@ typedef enum {
     Predownloading,
     Editing,
     ImagePreview,
-    NoFlicks
+    NoFlicks,
+    SearchTimeout
 } ViewMode;
 
 typedef void (^FrcBlockOp)(void);
@@ -33,9 +34,13 @@ typedef void (^FrcBlockOp)(void);
 @property (nonatomic, strong) UIBarButtonItem *trashBbi;
 @property (nonatomic) ViewMode viewMode;
 
+@property (nonatomic, strong) NSMutableArray *selectedCellsArray;
+
+@property (nonatomic, strong) UITapGestureRecognizer *tapGr;
+
 @property (nonatomic, strong) NSMutableArray *frcCvBlockOpsArray;
 
-// return progress of Flick download
+// return progress of Flick download: 0.0 = no flicks, 1.0 = all flicks downloaded
 - (float)downloadProgress;
 
 // configure view mode
@@ -49,6 +54,9 @@ typedef void (^FrcBlockOp)(void);
 - (void)reloadAlbumBbiPressed:(id)sender;
 - (void)shareFlickBbiPressed:(id)sender;
 
+// tapDetected
+- (void)singleTapDetected:(id)sender;
+
 - (void)debugBbiPressed:(id)sender;
 @end
 
@@ -56,6 +64,8 @@ typedef void (^FrcBlockOp)(void);
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    _selectedCellsArray = [[NSMutableArray alloc] init];
     
     self.title = _pin.title;
     
@@ -132,20 +142,38 @@ typedef void (^FrcBlockOp)(void);
         [cell downloadingNewFlick];
     }
     
+    [cell updateCellSelectedState:[_selectedCellsArray containsObject:indexPath]];
+    
     return cell;
 }
 
 #pragma mark - CollectionView Delegate Methods
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
+    switch (_viewMode) {
+        case Normal: {
+            
+            [self.view addGestureRecognizer:self.tapGr];
+            [_collectionView setHidden:YES];
+            
+            _viewMode = ImagePreview;
+            [self configureViewMode];
+        }
+            break;
+        case Editing: {
+            
+            
+        }
+            break;
+        default:
+            break;
+    }
 }
 
 #pragma mark - NSFetchedResultsController Delegate Methods
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
-    NSLog(@"willChangeContent: %@", _pin.title);
     
     _frcCvBlockOpsArray = [[NSMutableArray alloc] init];
-    
     if ((_viewMode == Predownloading) && (_pin.flicks.count > 0)) {
         
         _viewMode = Downloading;
@@ -157,7 +185,6 @@ typedef void (^FrcBlockOp)(void);
     
     switch (type) {
         case NSFetchedResultsChangeInsert: {
-            //NSLog(@"insert");
             
             FrcBlockOp blockOp = ^{
                 [_collectionView insertItemsAtIndexPaths:@[newIndexPath]];
@@ -166,7 +193,6 @@ typedef void (^FrcBlockOp)(void);
         }
             break;
         case NSFetchedResultsChangeDelete: {
-            //NSLog(@"delete");
             
             FrcBlockOp blockOp = ^{
                 [_collectionView deleteItemsAtIndexPaths:@[indexPath]];
@@ -175,11 +201,9 @@ typedef void (^FrcBlockOp)(void);
         }
             break;
         case NSFetchedResultsChangeMove: {
-            NSLog(@"move");
         }
             break;
         case NSFetchedResultsChangeUpdate: {
-            //NSLog(@"update");
             
             FrcBlockOp blockOp = ^{
                 [_collectionView reloadItemsAtIndexPaths:@[indexPath]];
@@ -192,8 +216,6 @@ typedef void (^FrcBlockOp)(void);
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
     
-    //NSLog(@"didChangeContent");
-    
     [_collectionView performBatchUpdates:^{
         
         for (FrcBlockOp blockOp in _frcCvBlockOpsArray) {
@@ -201,12 +223,20 @@ typedef void (^FrcBlockOp)(void);
         }
     } completion:nil];
     
-    [_progressView setProgress:[self downloadProgress]
-                      animated:YES];
-    
-    if ([self downloadProgress] >= 1.0) {
-        _viewMode = Normal;
-        [self configureViewMode];
+    switch (_viewMode) {
+        case Downloading: {
+            
+            [_progressView setProgress:[self downloadProgress]
+                              animated:YES];
+            
+            if ([self downloadProgress] >= 1.0) {
+                _viewMode = Normal;
+                [self configureViewMode];
+            }
+        }
+            break;
+        default:
+            break;
     }
 }
 
@@ -232,20 +262,41 @@ typedef void (^FrcBlockOp)(void);
     return _frc;
 }
 
+- (UITapGestureRecognizer *)tapGr {
+
+    if (_tapGr)
+        return _tapGr;
+    
+    _tapGr = [[UITapGestureRecognizer alloc]
+              initWithTarget:self
+              action:@selector(singleTapDetected:)];
+    
+    _tapGr.numberOfTapsRequired = 1;
+    
+    return _tapGr;
+}
+
 #pragma mark - Helper Methods
+// singleTap
+- (void)singleTapDetected:(id)sender {
+
+    [_collectionView setHidden:NO];
+    [self.view removeGestureRecognizer:self.tapGr];
+    
+    _viewMode = Normal;
+    [self configureViewMode];
+}
+
 // return state of ViewMode
 - (ViewMode)viewModeState {
  
     if (_pin.isDownloading && (self.frc.fetchedObjects.count == 0)) {
-        NSLog(@"predownloaing");
         return Predownloading;
     }
     else if (_pin.isDownloading && (self.frc.fetchedObjects.count > 0)) {
-        NSLog(@"downloading");
         return Downloading;
     }
     else if (_pin.noFlicksAtLocation) {
-        NSLog(@"noFlicks");
         return NoFlicks;
     }
     
@@ -259,13 +310,13 @@ typedef void (^FrcBlockOp)(void);
     if (totalFlicks == 0.0)
         return 0.0;
     
-    float downloadedFlickCout = 0.0;
+    float downloadedFlickCount = 0.0;
     for (Flick *flick in _frc.fetchedObjects) {
         if (flick.imageData)
-            downloadedFlickCout += 1.0;
+            downloadedFlickCount += 1.0;
     }
     
-    return  downloadedFlickCout / totalFlicks;
+    return  downloadedFlickCount / totalFlicks;
 }
 
 // configure view mode
@@ -290,6 +341,43 @@ typedef void (^FrcBlockOp)(void);
             [self.navigationItem setLeftBarButtonItem:nil animated:YES];
             [self.navigationItem setRightBarButtonItem:nil animated:YES];
             [self setToolbarItems:nil animated:YES];
+            
+            __block NSUInteger time = 0;
+            void (^timerBlock)(NSTimer *);
+            timerBlock = ^(NSTimer *timer) {
+                
+                time++;
+                    
+                if (_pin.isDownloading) {
+                    [timer invalidate];
+                    return;
+                }
+                
+                if (_pin.noFlicksAtLocation) {
+                    
+                    _viewMode = NoFlicks;
+                    [self configureViewMode];
+                    [timer invalidate];
+                    
+                    [self presentAlertWithTitle:@"No Flicks Found"
+                                     andMessage:@"Search another location"];
+                    return;
+                }
+                
+                if (time >= 10) {
+                    
+                    _viewMode = SearchTimeout;
+                    [self configureViewMode];
+                    [timer invalidate];
+                    
+                    [self presentAlertWithTitle:@"Flickr Search Timeout"
+                                     andMessage:@"Flickr or network problem"];
+                }
+            };
+            
+            [NSTimer scheduledTimerWithTimeInterval:1.0
+                                            repeats:YES
+                                              block:timerBlock];
         }
             break;
         case Downloading: {
@@ -340,16 +428,14 @@ typedef void (^FrcBlockOp)(void);
         }
             break;
         case ImagePreview: {
-            
+
             UIBarButtonItem *shareBbi = [[UIBarButtonItem alloc]
                                          initWithBarButtonSystemItem:UIBarButtonSystemItemAction
                                          target:self
                                          action:@selector(shareFlickBbiPressed:)];
             [self.navigationItem setRightBarButtonItem:shareBbi animated:YES];
-            
-            [self setToolbarItems:nil animated:YES];
-            
             [self.navigationItem setLeftBarButtonItem:placeholderBbi animated:YES];
+            [self setToolbarItems:nil animated:YES];
         }
             break;
         case NoFlicks: {
@@ -359,6 +445,15 @@ typedef void (^FrcBlockOp)(void);
             [self.navigationItem setLeftBarButtonItem:nil animated:YES];
             [_noFlicksImageView setHidden:NO];
             _noFlicksImageView.image = [UIImage imageNamed:@"NoFlicksFound"];
+        }
+            break;
+        case SearchTimeout: {
+            
+            [self setToolbarItems:nil animated:YES];
+            [self.navigationItem setRightBarButtonItem:nil animated:YES];
+            [self.navigationItem setLeftBarButtonItem:nil animated:YES];
+            [_noFlicksImageView setHidden:NO];            
+            _noFlicksImageView.image = [UIImage imageNamed:@"SearchTimeout"];
         }
             break;
     }

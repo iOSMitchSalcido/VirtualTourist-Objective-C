@@ -7,6 +7,10 @@
 //
 /*
  About MapViewController:
+ Handle Pins on a mapView
+ - dropping pins initiated by longPress gr
+ - config pins with accessory views for deleting pin, navigating into AlbumVC
+ - invoke Flickr album download when valid pin is dropped
  
  */
 #import <UIKit/UIKit.h>

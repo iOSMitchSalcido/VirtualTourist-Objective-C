@@ -14,9 +14,17 @@
 #import "CoreDataStack.h"
 
 @interface MapViewController () <MKMapViewDelegate, CLLocationManagerDelegate>
+
+// ref to mapView.
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
+
+// ref to annotation used to track dropped pin when user is dragging prior to final placement
 @property (weak, nonatomic) VTAnnotation *dragAnnotation;
+
+// ref to viewContext
 @property (weak, nonatomic) NSManagedObjectContext *viewContext;
+
+// ref to locationManager...used to retrieve user location when search bbi is pressed
 @property (strong, nonatomic) CLLocationManager *locationManager;
 
 // add a new Pin to an annotation

@@ -10,6 +10,7 @@
 
 @interface FlickCVCell()
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
+@property (weak, nonatomic) IBOutlet UIImageView *checkmarkImageView;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 
 @end
@@ -25,5 +26,10 @@
     
     _imageView.image = [UIImage imageNamed:@"DefaultCVCellImage"];
     [_activityIndicator startAnimating];
+}
+
+- (void)updateCellSelectedState:(BOOL)selected {
+    
+    [_checkmarkImageView setHidden:!selected];
 }
 @end
