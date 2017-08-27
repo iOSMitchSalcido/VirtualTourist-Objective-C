@@ -52,28 +52,20 @@
     taskCompletion = ^(NSDictionary *data, NSError *error) {
         
         // test error
-        if (error != nil) {
-            NSLog(@"error in downloadFlickr..");
-            return;
-        }
-        
-        // test data
-        if (data == nil) {
-            if (page == nil) {
-                NSLog(@"page == nil");
-            }
-            else {
-                NSLog(@"page == non-nil");
-            }
-            
-            NSLog(@"downloadFlickrAlbum data == nil");
+        if (error) {
+            completion(nil, error);
             return;
         }
         
         // test photos
         NSDictionary *photosDictionary = data[@"photos"];
         if (photosDictionary == nil) {
-            NSLog(@"bad photos dictionary");
+        
+            NSDictionary *userInfo = @{NSLocalizedDescriptionKey: @"Bad Flickr Data",
+                                       NSLocalizedFailureReasonErrorKey: @"Missing photo dictionary"};
+            completion(nil, [NSError errorWithDomain:@"VT-Error"
+                                                code:0
+                                            userInfo:userInfo]);
             return;
         }
         
@@ -114,7 +106,12 @@
             // test photo array
             NSArray *photoArray = photosDictionary[@"photo"];
             if (photoArray == nil) {
-                NSLog(@"bad photo array");
+                
+                NSDictionary *userInfo = @{NSLocalizedDescriptionKey: @"Bad Flickr Data",
+                                           NSLocalizedFailureReasonErrorKey: @"Missing photos array"};
+                completion(nil, [NSError errorWithDomain:@"VT-Error"
+                                                    code:0
+                                                userInfo:userInfo]);
                 return;
             }
             

@@ -26,8 +26,9 @@
     taskCompletion = ^(NSData *data, NSURLResponse *response, NSError *error) {
         
         // test error
-        if (error != nil) {
-            NSLog(@"error during dataTask");
+        if (error) {
+            if (completion)
+                completion(nil, error);
             return;
         }
         
@@ -35,13 +36,23 @@
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
         NSInteger statusCode = [httpResponse statusCode];
         if ((statusCode <= 199) || (statusCode >= 299)) {
-            NSLog(@"non-2xx status code returned");
+            
+            NSDictionary *userInfo = @{NSLocalizedDescriptionKey: @"Bad Flickr Status Code",
+                                       NSLocalizedFailureReasonErrorKey: @"Non-2xx status code returned."};
+            completion(nil, [NSError errorWithDomain:@"VT-Error"
+                                                code:0
+                                            userInfo:userInfo]);
             return;
         }
         
         // test data
         if (data == nil) {
-            NSLog(@"bad/missing data returned");
+            
+            NSDictionary *userInfo = @{NSLocalizedDescriptionKey: @"Bad Flickr Data",
+                                       NSLocalizedFailureReasonErrorKey: @"Unreadable data returned from Flickr."};
+            completion(nil, [NSError errorWithDomain:@"VT-Error"
+                                                code:0
+                                            userInfo:userInfo]);
             return;
         }
             
@@ -49,17 +60,21 @@
         NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data
                                                              options:NSJSONReadingAllowFragments
                                                                error:&jsonSerialError];
-        
         if (json)
             completion(json, nil);
         else
-            completion(nil, nil);
+            completion(nil, jsonSerialError);
     };
     
     // test for good URL
     NSURL *url = [self urlForParams:params];
     if (url == nil) {
-        NSLog(@"bad url");
+        
+        NSDictionary *userInfo = @{NSLocalizedDescriptionKey: @"Bar URL",
+                                   NSLocalizedFailureReasonErrorKey: @"Unable to create valud URL."};
+        completion(nil, [NSError errorWithDomain:@"VT-Error"
+                                            code:0
+                                        userInfo:userInfo]);
         return;
     }
     
