@@ -269,7 +269,7 @@
             
             // good save.. assign pin to annotation and begin album download
             annotation.pin = newPin;
-            [self downloadAlbumForPin:newPin];
+            [self.navigationController downloadAlbumForPin:newPin];
         }
     };
 
