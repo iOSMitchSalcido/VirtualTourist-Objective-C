@@ -213,7 +213,7 @@
     /*
      Handle creation of a Pin MO to attached to an annotation.
      Perform reverse geocode on annot coordinates, looking for valid placemark data. The location
-     info (name/title of location, state, name of city, etc) retrieved from the placemark. This
+     info (name/title of location, state, name of city, etc) is retrieved from the placemark. This
      is used to set the title in the newly created Pin MO.
      
      ...an album is then downloaded for the Pin
@@ -231,6 +231,7 @@
         // test error..remove annotation from map if error
         if (error != nil) {
             [self presentOKAlertForError:error];
+            [_mapView removeAnnotation:annotation];
             return;
         }
         
@@ -310,6 +311,9 @@
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
     
+    /*
+     failed user location search
+     */
     [self presentOKAlertForError:error];
 }
 
