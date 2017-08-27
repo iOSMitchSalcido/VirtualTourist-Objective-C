@@ -15,8 +15,6 @@
 // begin a new flick download for a Pin
 - (void)downloadAlbumForPin:(Pin *)pin;
 
-- (void)downloadAlbumForPin:(Pin *)pin withCompletion:(void (^)(NSError *error))completion;
-
 // resume downloading an flick album ..used when app is interupted during download.
 - (void)resumeAlbumDownloadForPin:(Pin *)pin;
 
