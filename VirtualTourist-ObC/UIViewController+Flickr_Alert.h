@@ -11,9 +11,7 @@
 
 @interface UIViewController (Flickr_Alert)
 
-/*
- Flickr Download Methods
- */
+/*** Flickr Download Methods ***/
 // begin a new flick download for a Pin
 - (void)downloadAlbumForPin:(Pin *)pin;
 
@@ -21,9 +19,14 @@
 - (void)resumeAlbumDownloadForPin:(Pin *)pin;
 
 
-/*
- Alert Methods
- */
+/*** Alert Methods ***/
 // present an alert with an "OK" button
-- (void)presentAlertWithTitle:(NSString *)title andMessage:(NSString *)message;
+- (void)presentOKAlertWithTitle:(NSString *)title andMessage:(NSString *)message;
+
+// present an alert with an "OK" button for an NSError
+- (void)presentOKAlertForError:(NSError *)error;
+
+
+/*** NSError Methods ***/
+- (NSError *)errorForLocalizedDescription:(NSString *)description andReason:(NSString *)reason;
 @end

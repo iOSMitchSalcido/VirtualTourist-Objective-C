@@ -14,6 +14,7 @@
 
 @implementation UIViewController (Flickr_Alert)
 
+#pragma mark - Flickr Download Methods
 // download album of flicks for a Pin
 - (void)downloadAlbumForPin:(Pin *)pin {
     
@@ -171,7 +172,8 @@
     }];
 }
 
-- (void)presentAlertWithTitle:(NSString *)title andMessage:(NSString *)message {
+#pragma mark - Alert Creation Methods
+- (void)presentOKAlertWithTitle:(NSString *)title andMessage:(NSString *)message {
     
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title
                                                                              message:message
@@ -187,4 +189,19 @@
                      completion:nil];
 }
 
+// present an alert with an "OK" button for an NSError
+- (void)presentOKAlertForError:(NSError *)error {
+    [self presentOKAlertWithTitle:error.localizedDescription andMessage:error.localizedFailureReason];
+}
+
+#pragma mark - Error Methods
+- (NSError *)errorForLocalizedDescription:(NSString *)description andReason:(NSString *)reason {
+    
+    NSDictionary *userInfo = @{NSLocalizedDescriptionKey: description,
+                               NSLocalizedFailureReasonErrorKey: reason};
+    
+    return [NSError errorWithDomain:@"VT-Error"
+                               code:0
+                           userInfo:userInfo];
+}
 @end

@@ -359,7 +359,7 @@ typedef void (^FrcBlockOp)(void);
                     [self configureViewMode];
                     [timer invalidate];
                     
-                    [self presentAlertWithTitle:@"No Flicks Found"
+                    [self presentOKAlertWithTitle:@"No Flicks Found"
                                      andMessage:@"Search another location"];
                     return;
                 }
@@ -370,7 +370,7 @@ typedef void (^FrcBlockOp)(void);
                     [self configureViewMode];
                     [timer invalidate];
                     
-                    [self presentAlertWithTitle:@"Flickr Search Timeout"
+                    [self presentOKAlertWithTitle:@"Flickr Search Timeout"
                                      andMessage:@"Flickr or network problem"];
                 }
             };

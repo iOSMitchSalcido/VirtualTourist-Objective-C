@@ -15,22 +15,25 @@
 
 @interface MapViewController () <MKMapViewDelegate, CLLocationManagerDelegate>
 
-// ref to mapView.
+//*** Properties ***
+// ref to mapView. Primary view object in VC
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 
 // ref to annotation used to track dropped pin when user is dragging prior to final placement
 @property (weak, nonatomic) VTAnnotation *dragAnnotation;
 
-// ref to viewContext
+// ref to MO container viewContext
 @property (weak, nonatomic) NSManagedObjectContext *viewContext;
 
 // ref to locationManager...used to retrieve user location when search bbi is pressed
 @property (strong, nonatomic) CLLocationManager *locationManager;
 
-// add a new Pin to an annotation
+
+//*** Methods ***
+// add a new Pin to an annotation.
 - (void)addPinToAnnotation:(VTAnnotation *)annotation;
 
-// create an annotation from a Pin
+// create an annotation from a Pin.
 - (VTAnnotation *)annotationForPin:(Pin *)pin;
 @end
 
@@ -65,13 +68,15 @@
     NSError *error = nil;
     NSArray *Pins = [self.viewContext executeFetchRequest:request error:&error];
     if (error) {
-        NSLog(@"error fetching pins");
+        [self presentOKAlertForError:error];
     }
     else {
+        // good fetch. Retrieve an annotaion for each Pin..add to mapView
         for (Pin *pin in Pins) {
             VTAnnotation *annotation = [self annotationForPin:pin];
             [_mapView addAnnotation:annotation];
             
+            // test if flick download was completed..resume if not
             if (!pin.downloadComplete)
                 [self resumeAlbumDownloadForPin:pin];
         }
@@ -87,7 +92,7 @@
 // prep for segueu
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
-    // test segeu
+    // test segue
     if ([segue.identifier  isEqual: @"AlbumViewControllerSegueID"]) {
         
         // segeu to AlbumVC. sender is Pin object to pass to Album VC
@@ -152,7 +157,7 @@
     
     // test for Pin
     if (pin == nil) {
-        NSLog(@"nil Pin");
+        [self presentOKAlertWithTitle:@"Bad Pin" andMessage:@"Missing data for annotation"];
         return;
     }
     
@@ -179,17 +184,16 @@
             // save private context followed by main viewContext
             NSError *error = nil;
             if (![privateContext save:&error]) {
-                NSLog(@"Error saving private context: %@\n%@", [error localizedDescription], [error userInfo]);
-                abort();
+                [self presentOKAlertForError:error];
             }
             else {
              
+                // save main viewContect
                 [self.viewContext performBlock:^{
                     
                     NSError *error = nil;
                     if (![self.viewContext save:&error]) {
-                        NSLog(@"Error saving private context: %@\n%@", [error localizedDescription], [error userInfo]);
-                        abort();
+                        [self presentOKAlertForError:error];
                     }
                 }];
             }
@@ -226,8 +230,7 @@
         
         // test error..remove annotation from map if error
         if (error != nil) {
-            NSLog(@"Error in geocoding location");
-            [_mapView removeAnnotation:annotation];
+            [self presentOKAlertForError:error];
             return;
         }
         
@@ -259,15 +262,13 @@
         // save
         NSError *saveError = nil;
         if (![self.viewContext save:&saveError]) {
-            NSLog(@"Error saving private context: %@\n%@", [error localizedDescription], [error userInfo]);
-            abort();
+            [self presentOKAlertForError:error];
         }
         else {
             
             // good save.. assign pin to annotation and begin album download
             annotation.pin = newPin;
             [self downloadAlbumForPin:newPin];
-            [self performSegueWithIdentifier:@"AlbumViewControllerSegueID" sender:newPin];
         }
     };
 
@@ -309,7 +310,7 @@
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
     
-    NSLog(@"location failure");
+    [self presentOKAlertForError:error];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
@@ -389,24 +390,26 @@
 - (void)searchBbiPressed:(id)sender {
     
     /*
-     Invoke location request from locationManager...delegate methods handle zoom
-     to user location
+     Invoke location request from locationManager
      */
     [self.locationManager requestLocation];
 }
 
 #pragma mark - Object Getters
+// main viewContext
 - (NSManagedObjectContext *)viewContext {
-    // main viewContext
+    
     if (_viewContext)
         return _viewContext;
+    
     _viewContext = CoreDataStack.shared.container.viewContext;
+    
     return _viewContext;
 }
 
+// location manager
 - (CLLocationManager *)locationManager {
 
-    // location manager
     if (_locationManager)
         return _locationManager;
     
