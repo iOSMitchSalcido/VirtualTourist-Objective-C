@@ -131,6 +131,14 @@
                                 <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </imageView>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BLW-Hi-dsP">
+                                <rect key="frame" x="35" y="159" width="250" height="250"/>
+                                <color key="backgroundColor" red="0.50196081400000003" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="250" id="G3i-vD-Kl0"/>
+                                    <constraint firstAttribute="width" constant="250" id="gsM-DM-lZz"/>
+                                </constraints>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -138,10 +146,12 @@
                             <constraint firstItem="c5c-ma-gsa" firstAttribute="top" secondItem="d7Z-Gi-hVb" secondAttribute="bottom" id="1jc-sX-BWq"/>
                             <constraint firstItem="d7Z-Gi-hVb" firstAttribute="leading" secondItem="EAR-TO-oze" secondAttribute="leading" id="C10-2v-bWs"/>
                             <constraint firstAttribute="trailing" secondItem="SEj-Vs-iAZ" secondAttribute="trailing" id="GdX-d3-0wE"/>
+                            <constraint firstItem="BLW-Hi-dsP" firstAttribute="centerY" secondItem="EAR-TO-oze" secondAttribute="centerY" id="TJv-eu-XHK"/>
                             <constraint firstItem="Bxo-yW-Yix" firstAttribute="centerY" secondItem="EAR-TO-oze" secondAttribute="centerY" id="XC5-YN-MPP"/>
                             <constraint firstItem="Bxo-yW-Yix" firstAttribute="centerX" secondItem="EAR-TO-oze" secondAttribute="centerX" id="Yz3-YK-SQD"/>
                             <constraint firstItem="c5c-ma-gsa" firstAttribute="top" secondItem="SEj-Vs-iAZ" secondAttribute="bottom" id="aOp-mN-IhA"/>
                             <constraint firstAttribute="trailing" secondItem="d7Z-Gi-hVb" secondAttribute="trailing" id="bP0-7c-ml6"/>
+                            <constraint firstItem="BLW-Hi-dsP" firstAttribute="centerX" secondItem="EAR-TO-oze" secondAttribute="centerX" id="irQ-rO-hye"/>
                             <constraint firstItem="SEj-Vs-iAZ" firstAttribute="top" secondItem="oE9-Qq-JAf" secondAttribute="bottom" id="qHf-ln-0vy"/>
                             <constraint firstItem="SEj-Vs-iAZ" firstAttribute="leading" secondItem="EAR-TO-oze" secondAttribute="leading" id="yAB-Cm-eer"/>
                         </constraints>
@@ -149,6 +159,7 @@
                     <connections>
                         <outlet property="activityIndicator" destination="Bxo-yW-Yix" id="22V-8q-JQk"/>
                         <outlet property="collectionView" destination="d7Z-Gi-hVb" id="TGT-IX-SrJ"/>
+                        <outlet property="flickScrollView" destination="BLW-Hi-dsP" id="QI3-BU-WMO"/>
                         <outlet property="flowLayout" destination="ayk-HL-6gL" id="snN-D3-xo6"/>
                         <outlet property="noFlicksImageView" destination="SEj-Vs-iAZ" id="RNa-UD-c8t"/>
                     </connections>

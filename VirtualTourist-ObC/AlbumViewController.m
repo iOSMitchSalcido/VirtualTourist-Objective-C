@@ -29,6 +29,7 @@ typedef void (^FrcBlockOp)(void);
 @property (weak, nonatomic) IBOutlet UICollectionViewFlowLayout *flowLayout;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (weak, nonatomic) IBOutlet UIImageView *noFlicksImageView;
+@property (weak, nonatomic) IBOutlet UIScrollView *flickScrollView;
 @property (nonatomic, strong) NSFetchedResultsController *frc;
 @property (nonatomic, strong) UIProgressView *progressView;
 @property (nonatomic, strong) UIBarButtonItem *trashBbi;
@@ -78,6 +79,8 @@ typedef void (^FrcBlockOp)(void);
     _progressView.progress = 0.0;
     [_progressView setHidden:YES];
     [self.navigationController.navigationBar addSubview:_progressView];
+    
+    _flickScrollView.alpha = 0.0;
     
     NSError *error = nil;
     if (![self.frc performFetch:&error]) {
@@ -154,7 +157,13 @@ typedef void (^FrcBlockOp)(void);
         case Normal: {
             
             [self.view addGestureRecognizer:self.tapGr];
-            [_collectionView setHidden:YES];
+
+            [UIView animateWithDuration:0.3
+                             animations:^{
+                                
+                                 _flickScrollView.alpha = 1.0;
+                                 _collectionView.alpha = 0.0;
+                             }];
             
             _viewMode = ImagePreview;
             [self configureViewMode];
@@ -280,8 +289,14 @@ typedef void (^FrcBlockOp)(void);
 // singleTap
 - (void)singleTapDetected:(id)sender {
 
-    [_collectionView setHidden:NO];
     [self.view removeGestureRecognizer:self.tapGr];
+
+    [UIView animateWithDuration:0.3
+                     animations:^{
+                        
+                         _collectionView.alpha = 1.0;
+                         _flickScrollView.alpha = 0.0;
+                     }];
     
     _viewMode = Normal;
     [self configureViewMode];

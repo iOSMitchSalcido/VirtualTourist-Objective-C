@@ -84,8 +84,9 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    
     [super viewWillAppear:animated];
-
+    
     [self.navigationController setToolbarHidden:YES];
 }
 
@@ -269,7 +270,7 @@
             
             // good save.. assign pin to annotation and begin album download
             annotation.pin = newPin;
-            [self.navigationController downloadAlbumForPin:newPin];
+            [self downloadAlbumForPin:newPin];
         }
     };
 
