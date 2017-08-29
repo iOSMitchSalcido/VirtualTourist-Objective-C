@@ -132,6 +132,20 @@ typedef void (^FrcBlockOp)(void);
     _progressView.frame = frame;
 }
 
+- (void)setEditing:(BOOL)editing animated:(BOOL)animated {
+    [super setEditing:editing animated:animated];
+    
+    if (editing)
+        _viewMode = Editing;
+    else
+        _viewMode = Normal;
+    
+    [self configureViewMode];
+    
+    [_selectedCellsArray removeAllObjects];
+    [_collectionView reloadData];
+}
+
 #pragma mark - CollectionView DataSource Methods
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     
@@ -150,6 +164,11 @@ typedef void (^FrcBlockOp)(void);
         [cell downloadingNewFlick];
     }
     
+    if (self.editing)
+        cell.imageView.alpha = 0.8;
+    else
+        cell.imageView.alpha = 1.0;
+        
     [cell updateCellSelectedState:[_selectedCellsArray containsObject:indexPath]];
     
     return cell;
@@ -180,7 +199,18 @@ typedef void (^FrcBlockOp)(void);
             break;
         case Editing: {
             
+            FlickCVCell *cell = (FlickCVCell *)[_collectionView cellForItemAtIndexPath:indexPath];
             
+            if ([_selectedCellsArray containsObject:indexPath]) {
+                [_selectedCellsArray removeObject:indexPath];
+                [cell updateCellSelectedState:NO];
+            }
+            else {
+                [_selectedCellsArray addObject:indexPath];
+                [cell updateCellSelectedState:YES];
+            }
+            
+            _trashBbi.enabled = [_selectedCellsArray count] > 0;
         }
             break;
         default:
@@ -203,7 +233,6 @@ typedef void (^FrcBlockOp)(void);
     
     switch (type) {
         case NSFetchedResultsChangeInsert: {
-            
             FrcBlockOp blockOp = ^{
                 [_collectionView insertItemsAtIndexPaths:@[newIndexPath]];
             };
@@ -211,7 +240,6 @@ typedef void (^FrcBlockOp)(void);
         }
             break;
         case NSFetchedResultsChangeDelete: {
-            
             FrcBlockOp blockOp = ^{
                 [_collectionView deleteItemsAtIndexPaths:@[indexPath]];
             };
@@ -222,7 +250,6 @@ typedef void (^FrcBlockOp)(void);
         }
             break;
         case NSFetchedResultsChangeUpdate: {
-            
             FrcBlockOp blockOp = ^{
                 [_collectionView reloadItemsAtIndexPaths:@[indexPath]];
             };
@@ -517,8 +544,49 @@ typedef void (^FrcBlockOp)(void);
 
 #pragma mark - UIBarButtonItem Action Methods
 - (void)trashBbiPressed:(id)sender {
-    NSLog(@"trashBbiPressed");
+    
+    NSManagedObjectContext *context = [CoreDataStack.shared.container viewContext];
+    NSManagedObjectContext *privateContext = [[NSManagedObjectContext alloc]
+                                              initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+    privateContext.parentContext = context;
+    [privateContext performBlock:^{
+        
+        for (NSIndexPath *indexPath in _selectedCellsArray) {
+            
+            Flick *flick = [self.frc objectAtIndexPath:indexPath];
+            Flick *privateFlick = [privateContext objectWithID:flick.objectID];
+            [privateContext deleteObject:privateFlick];
+        }
+        
+        [_selectedCellsArray removeAllObjects];
+        
+        NSError *error = nil;
+        if (![privateContext save:&error]) {
+            NSLog(@"error saving after deleting flicks");
+        }
+        else {
+            [context performBlockAndWait:^{
+                
+                NSError *error = nil;
+                if (![context save:&error]) {
+                    NSLog(@"error saving after deleting flicks");
+                }
+                else {
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        
+                        [self configureFlickScrollView];
+                        _trashBbi.enabled = NO;
+                        
+                        if (self.frc.fetchedObjects.count == 0)
+                            [self setEditing:NO animated:YES];
+                    });
+                }
+            }];
+        }
+    }];
 }
+     
 - (void)reloadAlbumBbiPressed:(id)sender {
     
     NSManagedObjectContext *context = [CoreDataStack.shared.container viewContext];

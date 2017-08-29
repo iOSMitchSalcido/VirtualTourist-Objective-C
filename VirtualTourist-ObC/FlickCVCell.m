@@ -9,7 +9,6 @@
 #import "FlickCVCell.h"
 
 @interface FlickCVCell()
-@property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UIImageView *checkmarkImageView;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 
