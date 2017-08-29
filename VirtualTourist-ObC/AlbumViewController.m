@@ -47,6 +47,9 @@ typedef void (^FrcBlockOp)(void);
 // configure view mode
 - (void)configureViewMode;
 
+// configure imageViews in flickScrollView
+- (void)configureFlickScrollView;
+
 // return state of ViewMode
 - (ViewMode)viewModeState;
 
@@ -91,8 +94,10 @@ typedef void (^FrcBlockOp)(void);
         _viewMode = Predownloading;
         if (_pin.noFlicksAtLocation)
             _viewMode = NoFlicks;
-        else if ([_pin downloadComplete])
+        else if ([_pin downloadComplete]) {
             _viewMode = Normal;
+            [self configureFlickScrollView];
+        }
         
         [self configureViewMode];
     }
@@ -164,6 +169,10 @@ typedef void (^FrcBlockOp)(void);
                                  _flickScrollView.alpha = 1.0;
                                  _collectionView.alpha = 0.0;
                              }];
+
+            CGRect scrollToFrame = _flickScrollView.frame;
+            scrollToFrame.origin.x = (float)(indexPath.row) * scrollToFrame.size.width;
+            [_flickScrollView scrollRectToVisible:scrollToFrame animated:NO];
             
             _viewMode = ImagePreview;
             [self configureViewMode];
@@ -240,6 +249,7 @@ typedef void (^FrcBlockOp)(void);
             
             if ([self downloadProgress] >= 1.0) {
                 _viewMode = Normal;
+                [self configureFlickScrollView];
                 [self configureViewMode];
             }
         }
@@ -472,6 +482,37 @@ typedef void (^FrcBlockOp)(void);
         }
             break;
     }
+}
+
+// configure imageViews in flickScrollView
+- (void)configureFlickScrollView {
+    
+    // remove all flicks currently in scrollView
+    for (UIView *view in _flickScrollView.subviews) {
+        if (view.tag >= 100)
+            [view removeFromSuperview];
+    }
+    
+    // create frame and size to build subViews and track size
+    CGRect frame = _flickScrollView.frame;
+    frame.origin = CGPointMake(0.0, 0.0);
+    CGSize contentSize = CGSizeMake(0.0, frame.size.height);
+    
+    // create subViews..use tag to identify subviews that are NOT scrolls
+    NSInteger tag = 100;
+    for (Flick *flick in self.frc.fetchedObjects) {
+        
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:frame];
+        imageView.tag = tag;
+        imageView.image = [UIImage imageWithData:flick.imageData];
+        frame.origin.x += frame.size.width;
+        contentSize.width += frame.size.width;
+        [_flickScrollView addSubview:imageView];
+        tag += 1;
+    }
+    
+    // size
+    [_flickScrollView setContentSize:contentSize];
 }
 
 #pragma mark - UIBarButtonItem Action Methods
