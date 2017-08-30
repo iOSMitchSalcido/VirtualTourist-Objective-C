@@ -39,6 +39,7 @@
 
 @implementation MapViewController
 
+#pragma mark - View Lifecycle
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -84,13 +85,11 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    
     [super viewWillAppear:animated];
     
     [self.navigationController setToolbarHidden:YES];
 }
 
-// prep for segueu
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
     // test segue
@@ -125,14 +124,14 @@
         pinView.canShowCallout = YES;
         pinView.animatesDrop = YES;
         
-        // left callout
+        // left callout.... delete Pin
         UIButton *leftCalloutAccessory = [UIButton buttonWithType:UIButtonTypeCustom];
         leftCalloutAccessory.frame = CGRectMake(0, 0, 22, 22);
         [leftCalloutAccessory setImage:[UIImage imageNamed:@"LeftCalloutAccessoryImage"]
                               forState:UIControlStateNormal];
         pinView.leftCalloutAccessoryView = leftCalloutAccessory;
         
-        // right callout
+        // right callout... navigate to AlbumVC
         UIButton *rightCalloutAccessory = [UIButton buttonWithType:UIButtonTypeCustom];
         rightCalloutAccessory.frame = CGRectMake(0, 0, 22, 22);
         [rightCalloutAccessory setImage:[UIImage imageNamed:@"RightCalloutAccessoryImage"]
@@ -220,11 +219,6 @@
      ...an album is then downloaded for the Pin
      */
     
-    // pull coordinate and make a location from annotation
-    CLLocationCoordinate2D coordinate = annotation.coordinate;
-    CLLocation *location = [[CLLocation alloc] initWithLatitude:coordinate.latitude
-                                                      longitude:coordinate.longitude];
-    
     // block for reverse geocode completion
     void (^reverseGeocodeBlock)(NSArray *, NSError *);
     reverseGeocodeBlock = ^(NSArray *placemarks, NSError *error) {
@@ -274,6 +268,10 @@
         }
     };
 
+    // make a location from annotation
+    CLLocation *location = [[CLLocation alloc] initWithLatitude:annotation.coordinate.latitude
+                                                      longitude:annotation.coordinate.longitude];
+    
     // create geoCoder, reverse geoCode the location
     CLGeocoder *geoCoder = [[CLGeocoder alloc] init];
     [geoCoder reverseGeocodeLocation:location completionHandler:reverseGeocodeBlock];
