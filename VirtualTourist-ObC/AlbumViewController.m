@@ -69,8 +69,6 @@ typedef void (^FrcBlockOp)(void);
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    _selectedCellsArray = [[NSMutableArray alloc] init];
-    
     self.title = _pin.title;
     
     [_noFlicksImageView setHidden:YES];
@@ -87,7 +85,7 @@ typedef void (^FrcBlockOp)(void);
     
     NSError *error = nil;
     if (![self.frc performFetch:&error]) {
-        NSLog(@"bad frc fetch");
+        [self presentOKAlertForError:error];
     }
     else {
 
@@ -135,14 +133,19 @@ typedef void (^FrcBlockOp)(void);
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated {
     [super setEditing:editing animated:animated];
     
-    if (editing)
+    if (editing) {
+        
         _viewMode = Editing;
-    else
+        _selectedCellsArray = [[NSMutableArray alloc] init];
+    }
+    else {
+        
         _viewMode = Normal;
+        _selectedCellsArray = nil;
+    }
     
     [self configureViewMode];
     
-    [_selectedCellsArray removeAllObjects];
     [_collectionView reloadData];
 }
 
@@ -589,37 +592,45 @@ typedef void (^FrcBlockOp)(void);
      
 - (void)reloadAlbumBbiPressed:(id)sender {
     
-    NSManagedObjectContext *context = [CoreDataStack.shared.container viewContext];
-    NSManagedObjectContext *privateContext = [[NSManagedObjectContext alloc]
-                                              initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-    privateContext.parentContext = context;
-    [privateContext performBlock:^{
-       
-        Pin *privatePin = (Pin *)[privateContext objectWithID:_pin.objectID];
-        for (Flick *flick in privatePin.flicks)
-            [privateContext deleteObject:flick];
-        
-        NSError *error = nil;
-        if (![privateContext save:&error]) {
-            NSLog(@"error saving after deleting flicks");
-        }
-        else {
-            [context performBlockAndWait:^{
-               
-                NSError *error = nil;
-                if (![context save:&error]) {
-                    NSLog(@"error saving after deleting flicks");
-                }
-                else {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        _viewMode = Predownloading;
-                        [self configureViewMode];
-                        [self downloadAlbumForPin:_pin];
-                    });
-                }
-            }];
-        }
-    }];
+    void (^proceedActionCompletion)(void);
+    proceedActionCompletion = ^{
+      
+        NSManagedObjectContext *context = [CoreDataStack.shared.container viewContext];
+        NSManagedObjectContext *privateContext = [[NSManagedObjectContext alloc]
+                                                  initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+        privateContext.parentContext = context;
+        [privateContext performBlock:^{
+            
+            Pin *privatePin = (Pin *)[privateContext objectWithID:_pin.objectID];
+            for (Flick *flick in privatePin.flicks)
+                [privateContext deleteObject:flick];
+            
+            NSError *error = nil;
+            if (![privateContext save:&error]) {
+                NSLog(@"error saving after deleting flicks");
+            }
+            else {
+                [context performBlockAndWait:^{
+                    
+                    NSError *error = nil;
+                    if (![context save:&error]) {
+                        NSLog(@"error saving after deleting flicks");
+                    }
+                    else {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            _viewMode = Predownloading;
+                            [self configureViewMode];
+                            [self downloadAlbumForPin:_pin];
+                        });
+                    }
+                }];
+            }
+        }];
+    };
+    
+    if ([self.frc.fetchedObjects count] > 0)
+        [self presentCancelProceedAlertWithTitle:@"Load new album"
+                                         message:@"Delete all flicks and replace with newly downloaded album" completion:proceedActionCompletion];
 }
 - (void)shareFlickBbiPressed:(id)sender {
     

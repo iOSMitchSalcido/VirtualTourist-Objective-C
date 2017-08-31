@@ -53,14 +53,15 @@
             
             // test error
             if (error) {
+                NSLog(@"non-nil Error");
                 privatePin.isDownloading = NO;
-                privatePin.noFlicksAtLocation = YES;
                 save();
                 return;
             }
             
             // test for any flicks returned
             if (urlStrings.count == 0) {
+                NSLog(@"Zero URL's");
                 privatePin.isDownloading = NO;
                 privatePin.noFlicksAtLocation = YES;
                 save();
@@ -201,6 +202,30 @@
 // present an alert with an "OK" button for an NSError
 - (void)presentOKAlertForError:(NSError *)error {
     [self presentOKAlertWithTitle:error.localizedDescription andMessage:error.localizedFailureReason];
+}
+
+// present an alert with a "Cancel" and "Proceed" button and completion
+- (void)presentCancelProceedAlertWithTitle:(NSString *)title
+                                   message:(NSString *)message
+                                completion:(void (^)(void))completion {
+    
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title
+                                                                             message:message
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel"
+                                                           style:UIAlertActionStyleCancel
+                                                         handler:nil];
+    
+    UIAlertAction *proceedAction = [UIAlertAction actionWithTitle:@"Proceed"
+                                                            style:UIAlertActionStyleDestructive
+                                                          handler:^(UIAlertAction *action) {
+                                                              completion();
+                                                          }];
+    
+    [alertController addAction:cancelAction];
+    [alertController addAction:proceedAction];
+    [self presentViewController:alertController animated:true completion:nil];
 }
 
 #pragma mark - Error Methods

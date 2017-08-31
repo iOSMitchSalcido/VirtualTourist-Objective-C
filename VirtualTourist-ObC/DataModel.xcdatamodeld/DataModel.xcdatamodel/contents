@@ -7,10 +7,10 @@
         <relationship name="pin" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Pin" inverseName="flicks" inverseEntity="Pin" syncable="YES"/>
     </entity>
     <entity name="Pin" representedClassName="Pin" syncable="YES">
-        <attribute name="isDownloading" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="isDownloading" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="noFlicksAtLocation" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="noFlicksAtLocation" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="flicks" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Flick" inverseName="pin" inverseEntity="Flick" syncable="YES"/>
     </entity>

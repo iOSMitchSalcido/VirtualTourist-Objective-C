@@ -26,7 +26,12 @@
 // present an alert with an "OK" button for an NSError
 - (void)presentOKAlertForError:(NSError *)error;
 
+// present an alert with a "Cancel" and "Proceed" button and completion
+- (void)presentCancelProceedAlertWithTitle:(NSString *)title
+                                   message:(NSString *)message
+                                completion:(void (^)(void))completion;
 
+// void (^)(NSArray *urlStrings, NSError *error))completion;
 /*** NSError Methods ***/
 - (NSError *)errorForLocalizedDescription:(NSString *)description andReason:(NSString *)reason;
 @end
