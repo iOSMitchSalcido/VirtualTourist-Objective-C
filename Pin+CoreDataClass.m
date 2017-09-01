@@ -12,9 +12,6 @@
 @implementation Pin
 - (BOOL)downloadComplete {
     
-    if (self.flicks.count == 0)
-        return NO;
-    
     for (Flick *flick in self.flicks) {
         if (!flick.imageData)
             return NO;

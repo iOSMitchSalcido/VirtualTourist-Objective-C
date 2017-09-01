@@ -23,6 +23,9 @@
      Each flick received is assigned to a Flick MO which is attached to Pin
      */
     
+    // set download state of Pin
+    pin.isDownloading = YES;
+    
     // task completion for FlicrAPI methods
     void (^taskCompletion)(NSArray *, NSError *);
     taskCompletion = ^(NSArray *urlStrings, NSError *error) {
@@ -33,6 +36,9 @@
         privateContext.parentContext = [CoreDataStack.shared.container viewContext];
         [privateContext performBlock:^{
            
+            // pull Pin into privateContext
+            Pin *privatePin = (Pin *)[privateContext objectWithID:pin.objectID];
+            
             // declare a save block...will be used often below to save
             // context(s) as download progresses
             void (^save)(void);
@@ -45,12 +51,7 @@
                     [CoreDataStack.shared save];
                 }
             };
-            
-            // pull Pin into privateContext, set download state and save
-            Pin *privatePin = (Pin *)[privateContext objectWithID:pin.objectID];
-            privatePin.isDownloading = YES;
-            save();
-            
+             
             // test error
             if (error) {
                 NSLog(@"non-nil Error");
@@ -134,10 +135,16 @@
 
 - (void)resumeAlbumDownloadForPin:(Pin *)pin {
     
+    // set download state of Pin
+    pin.isDownloading = YES;
+    
     NSManagedObjectContext *privateContext = [[NSManagedObjectContext alloc]
                                               initWithConcurrencyType:NSPrivateQueueConcurrencyType];
     privateContext.parentContext = [CoreDataStack.shared.container viewContext];
     [privateContext performBlock:^{
+        
+        // pull Pin into privateContext
+        Pin *privatePin = (Pin *)[privateContext objectWithID:pin.objectID];
         
         void (^save)(void);
         save = ^{
@@ -149,10 +156,6 @@
                 [CoreDataStack.shared save];
             }
         };
-        
-        Pin *privatePin = (Pin *)[privateContext objectWithID:pin.objectID];
-        privatePin.isDownloading = YES;
-        save();
         
         NSSortDescriptor *sortDesc = [NSSortDescriptor sortDescriptorWithKey:@"urlString"
                                                                    ascending:true

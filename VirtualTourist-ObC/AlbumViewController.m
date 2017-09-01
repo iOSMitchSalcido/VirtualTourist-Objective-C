@@ -50,9 +50,6 @@ typedef void (^FrcBlockOp)(void);
 // configure imageViews in flickScrollView
 - (void)configureFlickScrollView;
 
-// return state of ViewMode
-- (ViewMode)viewModeState;
-
 // UIBarButtonItem action methods
 - (void)trashBbiPressed:(id)sender;
 - (void)reloadAlbumBbiPressed:(id)sender;
@@ -88,13 +85,19 @@ typedef void (^FrcBlockOp)(void);
         [self presentOKAlertForError:error];
     }
     else {
-
-        _viewMode = Predownloading;
-        if (_pin.noFlicksAtLocation)
+        
+        if (_pin.isDownloading && (self.frc.fetchedObjects.count == 0))
+            _viewMode = Predownloading;
+        
+        else if (_pin.isDownloading)
+            _viewMode = Downloading;
+        
+        else if (_pin.noFlicksAtLocation)
             _viewMode = NoFlicks;
-        else if ([_pin downloadComplete]) {
-            _viewMode = Normal;
+        
+        else {
             [self configureFlickScrollView];
+            _viewMode = Normal;
         }
         
         [self configureViewMode];
@@ -225,8 +228,8 @@ typedef void (^FrcBlockOp)(void);
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
     
     _frcCvBlockOpsArray = [[NSMutableArray alloc] init];
-    if ((_viewMode == Predownloading) && (_pin.flicks.count > 0)) {
-        
+    
+    if (_viewMode == Predownloading) {
         _viewMode = Downloading;
         [self configureViewMode];
     }
@@ -340,22 +343,6 @@ typedef void (^FrcBlockOp)(void);
     
     _viewMode = Normal;
     [self configureViewMode];
-}
-
-// return state of ViewMode
-- (ViewMode)viewModeState {
- 
-    if (_pin.isDownloading && (self.frc.fetchedObjects.count == 0)) {
-        return Predownloading;
-    }
-    else if (_pin.isDownloading && (self.frc.fetchedObjects.count > 0)) {
-        return Downloading;
-    }
-    else if (_pin.noFlicksAtLocation) {
-        return NoFlicks;
-    }
-    
-    return Normal;
 }
 
 // return progress of Flick download
@@ -592,6 +579,8 @@ typedef void (^FrcBlockOp)(void);
      
 - (void)reloadAlbumBbiPressed:(id)sender {
     
+    [_progressView setProgress:0.0 animated:NO];
+    
     void (^proceedActionCompletion)(void);
     proceedActionCompletion = ^{
       
@@ -631,7 +620,10 @@ typedef void (^FrcBlockOp)(void);
     if ([self.frc.fetchedObjects count] > 0)
         [self presentCancelProceedAlertWithTitle:@"Load new album"
                                          message:@"Delete all flicks and replace with newly downloaded album" completion:proceedActionCompletion];
+    else
+        proceedActionCompletion();
 }
+
 - (void)shareFlickBbiPressed:(id)sender {
     
     CGFloat offset = _flickScrollView.contentOffset.x;
