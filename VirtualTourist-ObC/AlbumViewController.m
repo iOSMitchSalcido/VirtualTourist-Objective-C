@@ -57,8 +57,6 @@ typedef void (^FrcBlockOp)(void);
 
 // tapDetected
 - (void)singleTapDetected:(id)sender;
-
-- (void)debugBbiPressed:(id)sender;
 @end
 
 @implementation AlbumViewController
@@ -447,13 +445,7 @@ typedef void (^FrcBlockOp)(void);
                                           target:self
                                           action:@selector(reloadAlbumBbiPressed:)];
             
-            UIBarButtonItem *debugBbi = [[UIBarButtonItem alloc]
-                                         initWithTitle:@"debug"
-                                         style:UIBarButtonItemStylePlain
-                                         target:self
-                                         action:@selector(debugBbiPressed:)];
-            
-            [self setToolbarItems:@[debugBbi, flexBbi, reloadBbi] animated:YES];
+            [self setToolbarItems:@[flexBbi, reloadBbi] animated:YES];
             [self.navigationItem setLeftBarButtonItem:nil animated:YES];
         }
             break;
@@ -504,28 +496,27 @@ typedef void (^FrcBlockOp)(void);
 // configure imageViews in flickScrollView
 - (void)configureFlickScrollView {
     
-    // remove all flicks currently in scrollView
+    // remove all flicks currently in scrollView..except scroll bars
+    // views have been tagged with 100 to identify
     for (UIView *view in _flickScrollView.subviews) {
-        if (view.tag >= 100)
+        if (view.tag == 100)
             [view removeFromSuperview];
     }
     
-    // create frame and size to build subViews and track size
+    // create frame and size to build subViews, track size
     CGRect frame = _flickScrollView.frame;
     frame.origin = CGPointMake(0.0, 0.0);
     CGSize contentSize = CGSizeMake(0.0, frame.size.height);
     
-    // create subViews..use tag to identify subviews that are NOT scrolls
-    NSInteger tag = 100;
+    // create subViews..use tag to identify subviews that are NOT scroll bars
     for (Flick *flick in self.frc.fetchedObjects) {
         
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:frame];
-        imageView.tag = tag;
+        imageView.tag = 100;
         imageView.image = [UIImage imageWithData:flick.imageData];
         frame.origin.x += frame.size.width;
         contentSize.width += frame.size.width;
         [_flickScrollView addSubview:imageView];
-        tag += 1;
     }
     
     // size
@@ -629,18 +620,5 @@ typedef void (^FrcBlockOp)(void);
                                             applicationActivities:nil];
     
     [self presentViewController:controller animated:YES completion:nil];
-}
-
-- (void)debugBbiPressed:(id)sender {
-    
-    NSLog(@"debugBbiPressed");
-    
-    _pin.noFlicksAtLocation = !_pin.noFlicksAtLocation;
-    
-    NSManagedObjectContext *context = [CoreDataStack.shared.container viewContext];
-    NSError *error = nil;
-    if (![context save:&error]) {
-        NSLog(@"bad save");
-    }
 }
 @end

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		860264821F5AF1CF00028E75 /* AppInfo.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 860264811F5AF1CF00028E75 /* AppInfo.rtf */; };
 		861329431F468A1C00C1568A /* AlbumViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 861329421F468A1C00C1568A /* AlbumViewController.m */; };
 		86203A3C1F45AE7000456C7C /* Pin+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 86203A351F45AE6F00456C7C /* Pin+CoreDataClass.m */; };
 		86203A3D1F45AE7000456C7C /* Pin+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 86203A371F45AE6F00456C7C /* Pin+CoreDataProperties.m */; };
@@ -49,6 +50,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		860264811F5AF1CF00028E75 /* AppInfo.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = AppInfo.rtf; sourceTree = "<group>"; };
 		861329411F468A1C00C1568A /* AlbumViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumViewController.h; sourceTree = "<group>"; };
 		861329421F468A1C00C1568A /* AlbumViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumViewController.m; sourceTree = "<group>"; };
 		861A30F41F40F9D2009A3979 /* VirtualTourist-ObC-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "VirtualTourist-ObC-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -177,6 +179,7 @@
 				867B11991F3F530A003C0DF6 /* AppDelegate.h */,
 				867B119A1F3F530A003C0DF6 /* AppDelegate.m */,
 				867B11A71F3F530A003C0DF6 /* Info.plist */,
+				860264811F5AF1CF00028E75 /* AppInfo.rtf */,
 				862F40881F421C5C003076EE /* Networking */,
 				865F00A21F3FA38B00A8DA6A /* CoreData */,
 				86A98A5F1F4B6A0200C35A01 /* ViewControllers */,
@@ -358,6 +361,7 @@
 			files = (
 				867B11A61F3F530A003C0DF6 /* LaunchScreen.storyboard in Resources */,
 				867B11A31F3F530A003C0DF6 /* Assets.xcassets in Resources */,
+				860264821F5AF1CF00028E75 /* AppInfo.rtf in Resources */,
 				867B11A11F3F530A003C0DF6 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

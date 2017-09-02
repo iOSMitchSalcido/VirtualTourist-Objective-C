@@ -9,12 +9,20 @@
 #import "CoreDataStack.h"
 
 @implementation CoreDataStack
-- (id)init {
+
+// singleton creation
++(CoreDataStack *)shared {
     
-    self = [super init];
-    return self;
+    static CoreDataStack *shared = nil;
+    static dispatch_once_t onceToken = 0;
+    dispatch_once(&onceToken, ^{
+        shared = [[CoreDataStack alloc] init];
+    });
+    
+    return  shared;
 }
 
+// container
 - (NSPersistentContainer *)container {
     
     if (_container)
@@ -35,6 +43,7 @@
     return _container;
 }
 
+// save private context
 - (NSError *)savePrivateContext:(NSManagedObjectContext *)privateContext {
 
     __block NSError *error = nil;
@@ -48,16 +57,5 @@
     }
     
     return error;
-}
-
-+(CoreDataStack *)shared {
-    
-    static CoreDataStack *shared = nil;
-    static dispatch_once_t onceToken = 0;
-    dispatch_once(&onceToken, ^{
-        shared = [[CoreDataStack alloc] init];
-    });
-    
-    return  shared;
 }
 @end

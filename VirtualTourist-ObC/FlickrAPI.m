@@ -118,11 +118,10 @@
             // place url strings into array
             NSMutableArray *urlStringsArray = [[NSMutableArray alloc] init];
             for (NSDictionary *photoDictionary in photoArray) {
-                NSArray *keys = photoDictionary.allKeys;
-                for (NSString *key in keys) {
-                    if ([key isEqualToString:@"url_m"] && ([urlStringsArray count] <= (kMaxImagesDesired - 1)))
-                        [urlStringsArray addObject:photoDictionary[key]];
-                }
+                
+                NSString *urlString = photoDictionary[@"url_m"];
+                if ((urlString != nil) && (urlStringsArray.count <= kMaxImagesDesired - 1))
+                    [urlStringsArray addObject:urlString];
             }
             
             // fire completion
