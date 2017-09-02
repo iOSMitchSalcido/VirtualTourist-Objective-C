@@ -14,6 +14,11 @@
 
 @implementation UIViewController (Flickr_Alert)
 
+// ..save a VC. Done bbi can use this to dismiss VC
+- (IBAction)doneBbiPressed:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 #pragma mark - Flickr Download Methods
 // download album of flicks for a Pin
 - (void)downloadAlbumForPin:(Pin *)pin {

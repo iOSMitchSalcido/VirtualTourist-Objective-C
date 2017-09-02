@@ -35,6 +35,11 @@
 
 // create an annotation from a Pin.
 - (VTAnnotation *)annotationForPin:(Pin *)pin;
+
+
+// UIBarButtonItem action methods
+- (void)searchBbiPressed:(id)sender;    // find user location
+- (void)appInfoBbiPressed:(id)sender;   // invoke AppInfo VC
 @end
 
 @implementation MapViewController
@@ -63,6 +68,15 @@
     if (authStatus == kCLAuthorizationStatusNotDetermined) {
         [self.locationManager requestWhenInUseAuthorization];
     }
+    
+    // info bbi on left navbar..invoke AppInfo VC
+    UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
+    [infoButton addTarget:self
+                   action:@selector(appInfoBbiPressed:)
+         forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *infoBbi = [[UIBarButtonItem alloc]
+                                initWithCustomView:infoButton];
+    self.navigationItem.leftBarButtonItem = infoBbi;
     
     // fetch Pin's
     NSFetchRequest *request = [Pin fetchRequest];
@@ -377,12 +391,21 @@
 }
 
 #pragma mark - BarButtonItem Action Methods
+// search bbi pressed. Locate user
 - (void)searchBbiPressed:(id)sender {
     
     /*
      Invoke location request from locationManager
      */
     [self.locationManager requestLocation];
+}
+
+// appInfo bbi pressed, invoke App Info VC
+- (void)appInfoBbiPressed:(id)sender {
+    
+    UINavigationController *appInfoVC = [self.storyboard instantiateViewControllerWithIdentifier:@"HelpNavControllerID"];
+    
+    [self presentViewController:appInfoVC animated:YES completion:nil];
 }
 
 #pragma mark - Object Getters

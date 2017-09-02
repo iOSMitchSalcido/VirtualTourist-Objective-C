@@ -61,6 +61,68 @@
             </objects>
             <point key="canvasLocation" x="1076" y="138.98050974512745"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="sQW-Xg-pVG">
+            <objects>
+                <viewController id="jNd-rs-Nmm" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="4EJ-YU-XJV"/>
+                        <viewControllerLayoutGuide type="bottom" id="bSd-X3-94b"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Gos-kT-tff">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="mWi-Kj-qDB">
+                                <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AppInfoTitleObjC" translatesAutoresizingMaskIntoConstraints="NO" id="jwo-iE-Nql">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="249.5"/>
+                                    </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AppInfoInstructions" translatesAutoresizingMaskIntoConstraints="NO" id="xFQ-sN-esz">
+                                        <rect key="frame" x="0.0" y="254.5" width="320" height="249.5"/>
+                                    </imageView>
+                                </subviews>
+                                <variation key="heightClass=compact" axis="horizontal"/>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="mWi-Kj-qDB" secondAttribute="trailing" id="2k3-3j-qaP"/>
+                            <constraint firstItem="bSd-X3-94b" firstAttribute="top" secondItem="mWi-Kj-qDB" secondAttribute="bottom" id="Tvu-Wm-5Kc"/>
+                            <constraint firstItem="mWi-Kj-qDB" firstAttribute="top" secondItem="4EJ-YU-XJV" secondAttribute="bottom" id="mlb-p2-6tK"/>
+                            <constraint firstItem="mWi-Kj-qDB" firstAttribute="leading" secondItem="Gos-kT-tff" secondAttribute="leading" id="noN-rb-4GK"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="Ia1-7k-MsD">
+                        <nil key="title"/>
+                        <view key="titleView" contentMode="scaleToFill" id="hgs-hW-Poi">
+                            <rect key="frame" x="96" y="5.5" width="128" height="33"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AppInfoObjCTitleImage" translatesAutoresizingMaskIntoConstraints="NO" id="jgi-if-GdV">
+                                    <rect key="frame" x="0.0" y="5" width="128" height="23"/>
+                                </imageView>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstItem="jgi-if-GdV" firstAttribute="top" secondItem="hgs-hW-Poi" secondAttribute="top" constant="5" id="0Hy-Mk-PJ9"/>
+                                <constraint firstItem="jgi-if-GdV" firstAttribute="leading" secondItem="hgs-hW-Poi" secondAttribute="leading" id="2Aq-9w-umJ"/>
+                                <constraint firstAttribute="bottom" secondItem="jgi-if-GdV" secondAttribute="bottom" constant="5" id="ZKi-MA-CCp"/>
+                                <constraint firstAttribute="trailing" secondItem="jgi-if-GdV" secondAttribute="trailing" id="vQZ-DU-vBe"/>
+                            </constraints>
+                        </view>
+                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="done" id="dVn-QT-tpZ">
+                            <connections>
+                                <action selector="doneBbiPressed:" destination="jNd-rs-Nmm" id="UTm-Rp-BS8"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hp5-BU-7YO" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3041.25" y="-608.45070422535207"/>
+        </scene>
         <!--Album View Controller-->
         <scene sceneID="mvD-Rw-5G3">
             <objects>
@@ -186,8 +248,29 @@
             </objects>
             <point key="canvasLocation" x="127" y="139"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="hSp-Rb-Zsv">
+            <objects>
+                <navigationController storyboardIdentifier="HelpNavControllerID" automaticallyAdjustsScrollViewInsets="NO" id="QFt-UK-BjH" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="hkD-XM-7Nb">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="jNd-rs-Nmm" kind="relationship" relationship="rootViewController" id="str-GQ-f24"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="sCR-Jc-aFh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2043.75" y="-608.45070422535207"/>
+        </scene>
     </scenes>
     <resources>
+        <image name="AppInfoInstructions" width="252" height="252"/>
+        <image name="AppInfoObjCTitleImage" width="128" height="33"/>
+        <image name="AppInfoTitleObjC" width="252" height="252"/>
         <image name="CollectionCellSelectionCheckMark40pt" width="40" height="40"/>
         <image name="MapNavTitleImage" width="128" height="33"/>
     </resources>

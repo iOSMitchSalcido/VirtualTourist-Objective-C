@@ -9,7 +9,8 @@
  About CoreDataStack:
  Creation of Core Data Stack, used as a singleton. Functionality for:
  - creation of stack
- - saving stack
+ - saving private context
+ - access to container property
  */
 
 #import <Foundation/Foundation.h>

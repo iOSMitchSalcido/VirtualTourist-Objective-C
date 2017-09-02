@@ -12,6 +12,10 @@
 #import "CoreDataStack.h"
 #import "UIViewController+Flickr_Alert.h"
 
+// spacing for cells in collectionView
+#define kCellSpacing    2.0     // spacing between adjacent cells
+#define kCellsPerRow    4.0     // number of cells in a row
+
 typedef enum {
     Normal,
     Downloading,
