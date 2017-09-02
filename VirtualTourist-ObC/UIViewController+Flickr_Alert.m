@@ -38,34 +38,20 @@
            
             // pull Pin into privateContext
             Pin *privatePin = (Pin *)[privateContext objectWithID:pin.objectID];
-            
-            // declare a save block...will be used often below to save
-            // context(s) as download progresses
-            void (^save)(void);
-            save = ^{
-                NSError *saveError = nil;
-                if (![privateContext save:&saveError]) {
-                    NSLog(@"error saving privateContext");
-                }
-                else {
-                    [CoreDataStack.shared save];
-                }
-            };
              
             // test error
             if (error) {
-                NSLog(@"non-nil Error");
                 privatePin.isDownloading = NO;
-                save();
+                privatePin.noFlicksAtLocation = NO;
+                [CoreDataStack.shared savePrivateContext:privateContext];
                 return;
             }
             
             // test for any flicks returned
             if (urlStrings.count == 0) {
-                NSLog(@"Zero URL's");
                 privatePin.isDownloading = NO;
                 privatePin.noFlicksAtLocation = YES;
-                save();
+                [CoreDataStack.shared savePrivateContext:privateContext];
                 return;
             }
             
@@ -98,7 +84,7 @@
             }
             
             // save to trigger an frc that might be attached to Pin
-            save();
+            [CoreDataStack.shared savePrivateContext:privateContext];
             
             /*
              Now pull image data..
@@ -108,21 +94,24 @@
              */
             for (Flick *flick in flicks) {
                 
+                // test for valid url
                 NSURL *url = [NSURL URLWithString:flick.urlString];
                 if (url) {
                     
+                    // test for valid data
                     NSData *imageData = [NSData dataWithContentsOfURL:url];
                     if (imageData) {
                         
+                        // good data..save to flick
                         flick.imageData = imageData;
-                        save();
+                        [CoreDataStack.shared savePrivateContext:privateContext];
                     }
                 }
             }
             
             // done downloading..save to trigger frc
             privatePin.isDownloading = NO;
-            save();
+            [CoreDataStack.shared savePrivateContext:privateContext];
         }];
     };
     
@@ -138,6 +127,7 @@
     // set download state of Pin
     pin.isDownloading = YES;
     
+    // perform on private queue
     NSManagedObjectContext *privateContext = [[NSManagedObjectContext alloc]
                                               initWithConcurrencyType:NSPrivateQueueConcurrencyType];
     privateContext.parentContext = [CoreDataStack.shared.container viewContext];
@@ -146,41 +136,38 @@
         // pull Pin into privateContext
         Pin *privatePin = (Pin *)[privateContext objectWithID:pin.objectID];
         
-        void (^save)(void);
-        save = ^{
-            NSError *saveError = nil;
-            if (![privateContext save:&saveError]) {
-                NSLog(@"error saving new flick");
-            }
-            else {
-                [CoreDataStack.shared save];
-            }
-        };
         
+        // sort urlStrings...same ordering as FRC in albumVC
         NSSortDescriptor *sortDesc = [NSSortDescriptor sortDescriptorWithKey:@"urlString"
                                                                    ascending:true
                                                                     selector:@selector(caseInsensitiveCompare:)];
         NSArray *sortedFlicks = [privatePin.flicks sortedArrayUsingDescriptors:@[sortDesc]];
         
+        // iterate thru flicks
         for (Flick *flick in sortedFlicks) {
             
+            // test valid imageData
             if (!flick.imageData) {
                 
+                // test valid URL
                 NSURL *url = [NSURL URLWithString:flick.urlString];
                 if (url) {
                     
+                    // test valid data
                     NSData *imageData = [NSData dataWithContentsOfURL:url];
                     if (imageData) {
                         
+                        // done downloading..save to trigger frc
                         flick.imageData = imageData;
-                        save();
+                        [CoreDataStack.shared savePrivateContext:privateContext];
                     }
                 }
             }
         }
         
+        // done with download, save
         privatePin.isDownloading = NO;
-        save();
+        [CoreDataStack.shared savePrivateContext:privateContext];
     }];
 }
 
@@ -204,7 +191,9 @@
 
 // present an alert with an "OK" button for an NSError
 - (void)presentOKAlertForError:(NSError *)error {
-    [self presentOKAlertWithTitle:error.localizedDescription andMessage:error.localizedFailureReason];
+    
+    if (error)
+        [self presentOKAlertWithTitle:error.localizedDescription andMessage:error.localizedFailureReason];
 }
 
 // present an alert with a "Cancel" and "Proceed" button and completion
@@ -229,16 +218,5 @@
     [alertController addAction:cancelAction];
     [alertController addAction:proceedAction];
     [self presentViewController:alertController animated:true completion:nil];
-}
-
-#pragma mark - Error Methods
-- (NSError *)errorForLocalizedDescription:(NSString *)description andReason:(NSString *)reason {
-    
-    NSDictionary *userInfo = @{NSLocalizedDescriptionKey: description,
-                               NSLocalizedFailureReasonErrorKey: reason};
-    
-    return [NSError errorWithDomain:@"VT-Error"
-                               code:0
-                           userInfo:userInfo];
 }
 @end

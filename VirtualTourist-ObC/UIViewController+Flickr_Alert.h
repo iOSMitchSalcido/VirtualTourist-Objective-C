@@ -23,15 +23,11 @@
 // present an alert with an "OK" button
 - (void)presentOKAlertWithTitle:(NSString *)title andMessage:(NSString *)message;
 
-// present an alert with an "OK" button for an NSError
+// present an alert with an "OK" button for an NSError. Passing nil will result in no action (no alert shown)
 - (void)presentOKAlertForError:(NSError *)error;
 
 // present an alert with a "Cancel" and "Proceed" button and completion
 - (void)presentCancelProceedAlertWithTitle:(NSString *)title
                                    message:(NSString *)message
                                 completion:(void (^)(void))completion;
-
-// void (^)(NSArray *urlStrings, NSError *error))completion;
-/*** NSError Methods ***/
-- (NSError *)errorForLocalizedDescription:(NSString *)description andReason:(NSString *)reason;
 @end

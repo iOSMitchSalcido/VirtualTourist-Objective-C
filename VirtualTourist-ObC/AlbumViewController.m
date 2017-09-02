@@ -550,29 +550,23 @@ typedef void (^FrcBlockOp)(void);
         
         [_selectedCellsArray removeAllObjects];
         
-        NSError *error = nil;
-        if (![privateContext save:&error]) {
-            NSLog(@"error saving after deleting flicks");
+        NSError *error = [CoreDataStack.shared savePrivateContext:privateContext];
+        if (error) {
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self presentOKAlertForError:error];
+            });
         }
         else {
-            [context performBlockAndWait:^{
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
                 
-                NSError *error = nil;
-                if (![context save:&error]) {
-                    NSLog(@"error saving after deleting flicks");
-                }
-                else {
-                    
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        
-                        [self configureFlickScrollView];
-                        _trashBbi.enabled = NO;
-                        
-                        if (self.frc.fetchedObjects.count == 0)
-                            [self setEditing:NO animated:YES];
-                    });
-                }
-            }];
+                [self configureFlickScrollView];
+                _trashBbi.enabled = NO;
+                
+                if (self.frc.fetchedObjects.count == 0)
+                    [self setEditing:NO animated:YES];
+            });
         }
     }];
 }
@@ -594,25 +588,19 @@ typedef void (^FrcBlockOp)(void);
             for (Flick *flick in privatePin.flicks)
                 [privateContext deleteObject:flick];
             
-            NSError *error = nil;
-            if (![privateContext save:&error]) {
-                NSLog(@"error saving after deleting flicks");
-            }
+            NSError *error = [CoreDataStack.shared savePrivateContext:privateContext];
+            if (error) {
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self presentOKAlertForError:error];
+                });            }
             else {
-                [context performBlockAndWait:^{
-                    
-                    NSError *error = nil;
-                    if (![context save:&error]) {
-                        NSLog(@"error saving after deleting flicks");
-                    }
-                    else {
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            _viewMode = Predownloading;
-                            [self configureViewMode];
-                            [self downloadAlbumForPin:_pin];
-                        });
-                    }
-                }];
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    _viewMode = Predownloading;
+                    [self configureViewMode];
+                    [self downloadAlbumForPin:_pin];
+                });
             }
         }];
     };

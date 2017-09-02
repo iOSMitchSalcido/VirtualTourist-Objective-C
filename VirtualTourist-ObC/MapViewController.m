@@ -181,22 +181,9 @@
             Pin *privatePin = (Pin *)[privateContext objectWithID:pin.objectID];
             [privateContext deleteObject:privatePin];
             
-            // save private context followed by main viewContext
-            NSError *error = nil;
-            if (![privateContext save:&error]) {
-                [self presentOKAlertForError:error];
-            }
-            else {
-             
-                // save main viewContect
-                [self.viewContext performBlock:^{
-                    
-                    NSError *error = nil;
-                    if (![self.viewContext save:&error]) {
-                        [self presentOKAlertForError:error];
-                    }
-                }];
-            }
+            // save private context..present an alert if error
+            [self presentOKAlertForError:
+             [CoreDataStack.shared savePrivateContext:privateContext]];
         }];
     }
     else if (control == view.rightCalloutAccessoryView) {

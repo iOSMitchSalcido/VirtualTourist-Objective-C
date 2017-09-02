@@ -35,14 +35,19 @@
     return _container;
 }
 
-- (void)save {
+- (NSError *)savePrivateContext:(NSManagedObjectContext *)privateContext {
 
-    [self.container.viewContext performBlockAndWait:^{
-        NSError *error = nil;
-        if (![self.container.viewContext save:&error]) {
-            NSLog(@"bad viewContext save");
-        }
-    }];
+    __block NSError *error = nil;
+    if (![privateContext save:&error])
+        return error;
+    else {
+        
+        [self.container.viewContext performBlockAndWait:^{
+            [self.container.viewContext save:&error];
+        }];
+    }
+    
+    return error;
 }
 
 +(CoreDataStack *)shared {
