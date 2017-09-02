@@ -36,7 +36,6 @@
 // create an annotation from a Pin.
 - (VTAnnotation *)annotationForPin:(Pin *)pin;
 
-
 // UIBarButtonItem action methods
 - (void)searchBbiPressed:(id)sender;    // find user location
 - (void)appInfoBbiPressed:(id)sender;   // invoke AppInfo VC

@@ -14,6 +14,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface Pin : NSManagedObject
+// test download state for Pin. YES mean there are zero flicks with nil imageData
 @property (nonatomic, readonly) BOOL downloadComplete;
 @end
 

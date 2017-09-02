@@ -9,7 +9,7 @@
 #import "Networking.h"
 
 @interface Networking()
-- (NSURL *)urlForParams:(NSDictionary *)params;
+- (NSURL *)urlForParams:(NSDictionary *)params; // create URL for params
 @end
 
 @implementation Networking

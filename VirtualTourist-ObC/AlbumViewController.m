@@ -789,16 +789,23 @@ typedef void (^FrcBlockOp)(void);
 
 - (void)shareFlickBbiPressed:(id)sender {
     
+    /*
+     Present an ActivityVC to share the flick that is currently visible in scrollView
+     */
+    
+    // retrieve flick
     CGFloat offset = _flickScrollView.contentOffset.x;
     NSUInteger index = (NSUInteger)(offset / _flickScrollView.frame.size.width);
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
     Flick *flick = [self.frc objectAtIndexPath:indexPath];
     UIImage *image = [UIImage imageWithData:flick.imageData];
     
+    // create message for share
     NSString *message = @"Hello";
     if (_pin.title)
         message = [NSString stringWithFormat:@"Hello from %@ !", _pin.title];
     
+    // create and config with flick and message
     UIActivityViewController *controller = [[UIActivityViewController alloc]
                                             initWithActivityItems:@[message, image]
                                             applicationActivities:nil];
