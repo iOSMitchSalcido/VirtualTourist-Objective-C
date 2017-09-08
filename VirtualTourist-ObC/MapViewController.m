@@ -245,27 +245,44 @@
                 locationTitle = placemark.ocean;
         }
         
-        // set annotaion title
-        annotation.title = locationTitle;
-        
-        // create a new Pin MO. Assign title and geo info
-        Pin *newPin = [NSEntityDescription insertNewObjectForEntityForName:@"Pin"
-                                                    inManagedObjectContext:self.viewContext];
-        newPin.latitude = annotation.coordinate.latitude;
-        newPin.longitude = annotation.coordinate.longitude;
-        newPin.title = locationTitle;
-        
-        // save
-        NSError *saveError = nil;
-        if (![self.viewContext save:&saveError]) {
-            [self presentOKAlertForError:error];
-        }
-        else {
+        // perform Pin creation on private queue
+        NSManagedObjectContext *privateContext = [[NSManagedObjectContext alloc]
+                                                  initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+        privateContext.parentContext = [CoreDataStack.shared.container viewContext];
+        [privateContext performBlock:^{
             
-            // good save.. assign pin to annotation and begin album download
-            annotation.pin = newPin;
-            [self downloadAlbumForPin:newPin];
-        }
+            // create new Pin, assign coordinate info
+            Pin *pin = [NSEntityDescription insertNewObjectForEntityForName:@"Pin"
+                                                     inManagedObjectContext:privateContext];
+            pin.latitude = annotation.coordinate.latitude;
+            pin.longitude = annotation.coordinate.longitude;
+            pin.title = locationTitle;
+            
+            // save
+            NSError *saveError = [CoreDataStack.shared savePrivateContext:privateContext];
+            
+            // test error
+            if (saveError) {
+                
+                // bad save...remove annotation, show alert
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    
+                    [self.mapView removeAnnotation:annotation];
+                    [self presentOKAlertForError:error];
+                });
+            }
+            else {
+               
+                // good save...add pin/title to annotaion, start album download
+                dispatch_async(dispatch_get_main_queue(), ^{
+            
+                    Pin *newPin = [self.viewContext objectWithID:pin.objectID];
+                    annotation.pin = newPin;
+                    annotation.title = locationTitle;
+                    [self downloadAlbumForPin:newPin];
+                });
+            }
+        }];
     };
 
     // make a location from annotation
