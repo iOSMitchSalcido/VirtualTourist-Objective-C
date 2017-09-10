@@ -15,6 +15,7 @@
 		86203A3F1F45AE7000456C7C /* Flick+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 86203A3B1F45AE7000456C7C /* Flick+CoreDataProperties.m */; };
 		862F408B1F421C73003076EE /* Networking.m in Sources */ = {isa = PBXBuildFile; fileRef = 862F408A1F421C73003076EE /* Networking.m */; };
 		862F408E1F422011003076EE /* FlickrAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 862F408D1F422011003076EE /* FlickrAPI.m */; };
+		863E47DE1F6606C500F4B6E6 /* AppInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 863E47DD1F6606C500F4B6E6 /* AppInfoViewController.m */; };
 		865F00A11F3FA37D00A8DA6A /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 865F009F1F3FA37D00A8DA6A /* DataModel.xcdatamodeld */; };
 		867B11981F3F530A003C0DF6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 867B11971F3F530A003C0DF6 /* main.m */; };
 		867B119B1F3F530A003C0DF6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 867B119A1F3F530A003C0DF6 /* AppDelegate.m */; };
@@ -66,6 +67,8 @@
 		862F408A1F421C73003076EE /* Networking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Networking.m; sourceTree = "<group>"; };
 		862F408C1F422011003076EE /* FlickrAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlickrAPI.h; sourceTree = "<group>"; };
 		862F408D1F422011003076EE /* FlickrAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlickrAPI.m; sourceTree = "<group>"; };
+		863E47DC1F6606C500F4B6E6 /* AppInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppInfoViewController.h; sourceTree = "<group>"; };
+		863E47DD1F6606C500F4B6E6 /* AppInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppInfoViewController.m; sourceTree = "<group>"; };
 		865F00A01F3FA37D00A8DA6A /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
 		867B11931F3F530A003C0DF6 /* VirtualTourist-ObC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "VirtualTourist-ObC.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		867B11971F3F530A003C0DF6 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -236,6 +239,8 @@
 				861329421F468A1C00C1568A /* AlbumViewController.m */,
 				86AC8A041F47DD4800E8EA79 /* UIViewController+Flickr_Alert.h */,
 				86AC8A051F47DD4800E8EA79 /* UIViewController+Flickr_Alert.m */,
+				863E47DC1F6606C500F4B6E6 /* AppInfoViewController.h */,
+				863E47DD1F6606C500F4B6E6 /* AppInfoViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -401,6 +406,7 @@
 				867B11981F3F530A003C0DF6 /* main.m in Sources */,
 				867B11D01F3F58D5003C0DF6 /* CoreDataStack.m in Sources */,
 				86F0287F1F4475D7004E9299 /* VTAnnotation.m in Sources */,
+				863E47DE1F6606C500F4B6E6 /* AppInfoViewController.m in Sources */,
 				862F408B1F421C73003076EE /* Networking.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

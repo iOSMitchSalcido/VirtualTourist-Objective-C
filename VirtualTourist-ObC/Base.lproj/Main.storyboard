@@ -61,10 +61,10 @@
             </objects>
             <point key="canvasLocation" x="1076" y="138.98050974512745"/>
         </scene>
-        <!--View Controller-->
+        <!--App Info View Controller-->
         <scene sceneID="sQW-Xg-pVG">
             <objects>
-                <viewController id="jNd-rs-Nmm" sceneMemberID="viewController">
+                <viewController id="jNd-rs-Nmm" customClass="AppInfoViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="4EJ-YU-XJV"/>
                         <viewControllerLayoutGuide type="bottom" id="bSd-X3-94b"/>
@@ -73,14 +73,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="mWi-Kj-qDB">
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="mWi-Kj-qDB">
                                 <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AppInfoTitleObjC" translatesAutoresizingMaskIntoConstraints="NO" id="jwo-iE-Nql">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="249.5"/>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AppInfoTitle_portrait" translatesAutoresizingMaskIntoConstraints="NO" id="jwo-iE-Nql">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="250"/>
                                     </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AppInfoInstructions" translatesAutoresizingMaskIntoConstraints="NO" id="xFQ-sN-esz">
-                                        <rect key="frame" x="0.0" y="254.5" width="320" height="249.5"/>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AppInfoInstructions_portrait" translatesAutoresizingMaskIntoConstraints="NO" id="xFQ-sN-esz">
+                                        <rect key="frame" x="0.0" y="254" width="320" height="250"/>
                                     </imageView>
                                 </subviews>
                                 <variation key="heightClass=compact" axis="horizontal"/>
@@ -118,6 +118,10 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="appInfoImageView" destination="jwo-iE-Nql" id="gf6-8N-nVg"/>
+                        <outlet property="appInstructionsImageView" destination="xFQ-sN-esz" id="Cvv-bQ-KPc"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hp5-BU-7YO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -268,9 +272,9 @@
         </scene>
     </scenes>
     <resources>
-        <image name="AppInfoInstructions" width="252" height="252"/>
+        <image name="AppInfoInstructions_portrait" width="320" height="250"/>
         <image name="AppInfoObjCTitleImage" width="128" height="33"/>
-        <image name="AppInfoTitleObjC" width="252" height="252"/>
+        <image name="AppInfoTitle_portrait" width="320" height="250"/>
         <image name="CollectionCellSelectionCheckMark40pt" width="40" height="40"/>
         <image name="MapNavTitleImage" width="128" height="33"/>
     </resources>
