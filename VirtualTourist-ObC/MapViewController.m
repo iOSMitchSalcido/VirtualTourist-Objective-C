@@ -221,12 +221,19 @@
     
     // block for reverse geocode completion
     void (^reverseGeocodeBlock)(NSArray *, NSError *);
+    
+    // 171022, ARC cleanup
+    __weak MapViewController *weakSelf = self;
+    
     reverseGeocodeBlock = ^(NSArray *placemarks, NSError *error) {
+        
+        // 171022, ARC cleanup
+        MapViewController *innerSelf = weakSelf;
         
         // test error..remove annotation from map if error
         if (error != nil) {
-            [self presentOKAlertForError:error];
-            [_mapView removeAnnotation:annotation];
+            [innerSelf presentOKAlertForError:error];
+            [innerSelf.mapView removeAnnotation:annotation];
             return;
         }
         
@@ -267,8 +274,8 @@
                 // bad save...remove annotation, show alert
                 dispatch_async(dispatch_get_main_queue(), ^{
                     
-                    [self.mapView removeAnnotation:annotation];
-                    [self presentOKAlertForError:error];
+                    [innerSelf.mapView removeAnnotation:annotation];
+                    [innerSelf presentOKAlertForError:error];
                 });
             }
             else {
@@ -276,10 +283,10 @@
                 // good save...add pin/title to annotaion, start album download
                 dispatch_async(dispatch_get_main_queue(), ^{
             
-                    Pin *newPin = [self.viewContext objectWithID:pin.objectID];
+                    Pin *newPin = [innerSelf.viewContext objectWithID:pin.objectID];
                     annotation.pin = newPin;
                     annotation.title = locationTitle;
-                    [self downloadAlbumForPin:newPin];
+                    [innerSelf downloadAlbumForPin:newPin];
                 });
             }
         }];
