@@ -91,15 +91,9 @@ typedef void (^FrcBlockOp)(void);
 
 @implementation AlbumViewController
 
-- (void)dealloc {
-    NSLog(@"dealloc");
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    NSLog(@"viewDidLoad");
-    
+
     // view title is pin location title
     self.title = _pin.title;
     
