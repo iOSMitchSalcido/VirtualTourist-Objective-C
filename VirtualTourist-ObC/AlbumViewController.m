@@ -91,8 +91,14 @@ typedef void (^FrcBlockOp)(void);
 
 @implementation AlbumViewController
 
+- (void)dealloc {
+    NSLog(@"dealloc");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    NSLog(@"viewDidLoad");
     
     // view title is pin location title
     self.title = _pin.title;
@@ -149,7 +155,9 @@ typedef void (^FrcBlockOp)(void);
     // nil frc delegate and array..blocks in array preventing VC to dealloc..holding ref
     // to CV/VC
     _frc.delegate = nil;
-    _frcCvBlockOpsArray = nil;
+    
+    // 171022, ARC cleanup..removed setting frc to nil. Although was properly deallocating, instead
+    // using correct weak ref's to self in blocks
 }
 
 - (void)viewWillLayoutSubviews {
@@ -316,17 +324,24 @@ typedef void (^FrcBlockOp)(void);
      Detect change type and add block to frcCvBlockOpsArray
      */
     
+    // 171022, ARC cleanup
+    __weak AlbumViewController *weakSelf = self;
+    
     switch (type) {
         case NSFetchedResultsChangeInsert: {
             FrcBlockOp blockOp = ^{
-                [_collectionView insertItemsAtIndexPaths:@[newIndexPath]];
+                // 171022, ARC cleanup
+                AlbumViewController *innerSelf = weakSelf;
+                [innerSelf.collectionView insertItemsAtIndexPaths:@[newIndexPath]];
             };
             [_frcCvBlockOpsArray addObject:blockOp];
         }
             break;
         case NSFetchedResultsChangeDelete: {
             FrcBlockOp blockOp = ^{
-                [_collectionView deleteItemsAtIndexPaths:@[indexPath]];
+                // 171022, ARC cleanup
+                AlbumViewController *innerSelf = weakSelf;
+                [innerSelf.collectionView deleteItemsAtIndexPaths:@[indexPath]];
             };
             [_frcCvBlockOpsArray addObject:blockOp];
         }
@@ -336,7 +351,9 @@ typedef void (^FrcBlockOp)(void);
             break;
         case NSFetchedResultsChangeUpdate: {
             FrcBlockOp blockOp = ^{
-                [_collectionView reloadItemsAtIndexPaths:@[indexPath]];
+                // 171022, ARC cleanup
+                AlbumViewController *innerSelf = weakSelf;
+                [innerSelf.collectionView reloadItemsAtIndexPaths:@[indexPath]];
             };
             [_frcCvBlockOpsArray addObject:blockOp];
         }
@@ -352,9 +369,13 @@ typedef void (^FrcBlockOp)(void);
      */
     
     // fire blocks
+    // 171022, ARC cleanup
+    __weak AlbumViewController *weakSelf = self;
     [_collectionView performBatchUpdates:^{
         
-        for (FrcBlockOp blockOp in _frcCvBlockOpsArray) {
+        // 171022, ARC cleanup
+        AlbumViewController *innerSelf = weakSelf;
+        for (FrcBlockOp blockOp in innerSelf.frcCvBlockOpsArray) {
             blockOp();
         }
     } completion:nil];
@@ -506,26 +527,33 @@ typedef void (^FrcBlockOp)(void);
              create a timer and time-out search after 10 seconds. Timer is repeating, with a block
              that tests download state of pin.
              */
+            
+            // 171022, ARC cleanup
+            __weak AlbumViewController *weakSelf = self;
+            
             __block NSUInteger time = 0;
             void (^timerBlock)(NSTimer *);
             timerBlock = ^(NSTimer *timer) {
                 
+                // 171022, ARC cleanup
+                AlbumViewController *innerSelf = weakSelf;
+                
                 time++;
                 
                 // test for downloading
-                if (_pin.isDownloading) {
+                if (innerSelf.pin.isDownloading) {
                     [timer invalidate];
                     return;
                 }
                 
                 // test for no flicks...show alert and "noflicksFound" image
-                if (_pin.noFlicksAtLocation) {
+                if (innerSelf.pin.noFlicksAtLocation) {
                     
-                    _viewMode = NoFlicks;
-                    [self configureViewMode];
+                    innerSelf.viewMode = NoFlicks;
+                    [innerSelf configureViewMode];
                     [timer invalidate];
                     
-                    [self presentOKAlertWithTitle:@"No Flicks Found"
+                    [innerSelf presentOKAlertWithTitle:@"No Flicks Found"
                                      andMessage:@"Search another location"];
                     return;
                 }
@@ -533,11 +561,11 @@ typedef void (^FrcBlockOp)(void);
                 // timeout
                 if (time >= 10) {
                     
-                    _viewMode = SearchTimeout;
-                    [self configureViewMode];
+                    innerSelf.viewMode = SearchTimeout;
+                    [innerSelf configureViewMode];
                     [timer invalidate];
                     
-                    [self presentOKAlertWithTitle:@"Flickr Search Timeout"
+                    [innerSelf presentOKAlertWithTitle:@"Flickr Search Timeout"
                                      andMessage:@"Flickr or network problem"];
                 }
             };
@@ -687,19 +715,25 @@ typedef void (^FrcBlockOp)(void);
     NSManagedObjectContext *privateContext = [[NSManagedObjectContext alloc]
                                               initWithConcurrencyType:NSPrivateQueueConcurrencyType];
     privateContext.parentContext = context;
+    
+    // 171022, ARC cleanup
+    __weak AlbumViewController *weakSelf = self;
+    
     [privateContext performBlock:^{
         
+        AlbumViewController *innerSelf = weakSelf;
+        
         // delete all selected flicks
-        for (NSIndexPath *indexPath in _selectedCellsArray) {
+        for (NSIndexPath *indexPath in innerSelf.selectedCellsArray) {
             
             // get flick, bring into privateContext and then delete
-            Flick *flick = [self.frc objectAtIndexPath:indexPath];
+            Flick *flick = [innerSelf.frc objectAtIndexPath:indexPath];
             Flick *privateFlick = [privateContext objectWithID:flick.objectID];
             [privateContext deleteObject:privateFlick];
         }
         
         // remove selectedCells from array after being deleted
-        [_selectedCellsArray removeAllObjects];
+        [innerSelf.selectedCellsArray removeAllObjects];
         
         // save, test for error
         NSError *error = [CoreDataStack.shared savePrivateContext:privateContext];
@@ -707,7 +741,7 @@ typedef void (^FrcBlockOp)(void);
             
             // bad save...show alert
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self presentOKAlertForError:error];
+                [innerSelf presentOKAlertForError:error];
             });
         }
         else {
@@ -715,11 +749,11 @@ typedef void (^FrcBlockOp)(void);
             // good save... update UI..test for all flicks deleted, edit Editing if all deleted
             dispatch_async(dispatch_get_main_queue(), ^{
                 
-                [self configureFlickScrollView];
-                _trashBbi.enabled = NO;
+                [innerSelf configureFlickScrollView];
+                innerSelf.trashBbi.enabled = NO;
                 
-                if (self.frc.fetchedObjects.count == 0)
-                    [self setEditing:NO animated:YES];
+                if (innerSelf.frc.fetchedObjects.count == 0)
+                    [innerSelf setEditing:NO animated:YES];
             });
         }
     }];
@@ -745,8 +779,14 @@ typedef void (^FrcBlockOp)(void);
     
     // create completion for AlertVC "proceed" action
     void (^proceedActionCompletion)(void);
+    
+    // 171022, ARC cleanup
+    __weak AlbumViewController *weakSelf = self;
     proceedActionCompletion = ^{
       
+        // 171022, ARC cleanup
+        AlbumViewController *innerSelf = weakSelf;
+        
         // perform on private queue
         NSManagedObjectContext *context = [CoreDataStack.shared.container viewContext];
         NSManagedObjectContext *privateContext = [[NSManagedObjectContext alloc]
@@ -755,7 +795,7 @@ typedef void (^FrcBlockOp)(void);
         [privateContext performBlock:^{
             
             // retrieve pin into private context..delete all flicks from pin
-            Pin *privatePin = (Pin *)[privateContext objectWithID:_pin.objectID];
+            Pin *privatePin = (Pin *)[privateContext objectWithID:innerSelf.pin.objectID];
             for (Flick *flick in privatePin.flicks)
                 [privateContext deleteObject:flick];
             
@@ -765,15 +805,15 @@ typedef void (^FrcBlockOp)(void);
                 
                 // error during save
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [self presentOKAlertForError:error];
+                    [innerSelf presentOKAlertForError:error];
                 });            }
             else {
                 
                 // good save. Update UI
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    _viewMode = Predownloading;
-                    [self configureViewMode];
-                    [self downloadAlbumForPin:_pin];
+                    innerSelf.viewMode = Predownloading;
+                    [innerSelf configureViewMode];
+                    [innerSelf downloadAlbumForPin:_pin];
                 });
             }
         }];
@@ -782,7 +822,8 @@ typedef void (^FrcBlockOp)(void);
     // present Alert if flicks present..otherwise fire block to download new album
     if ([self.frc.fetchedObjects count] > 0)
         [self presentCancelProceedAlertWithTitle:@"Load new album"
-                                         message:@"Delete all flicks and replace with newly downloaded album" completion:proceedActionCompletion];
+                                         message:@"Delete all flicks and replace with newly downloaded album"
+                                      completion:proceedActionCompletion];
     else
         proceedActionCompletion();
 }
