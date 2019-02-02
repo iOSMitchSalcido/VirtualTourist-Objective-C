@@ -252,11 +252,13 @@ typedef void (^FrcBlockOp)(void);
             [self.view addGestureRecognizer:self.tapGr];
 
             // animate in/out scrollView/collectionView
+            __weak AlbumViewController *weakSelf = self;
             [UIView animateWithDuration:0.3
                              animations:^{
                                 
-                                 _flickScrollView.alpha = 1.0;
-                                 _collectionView.alpha = 0.0;
+                                 AlbumViewController *blockSelf = weakSelf;
+                                 blockSelf->_flickScrollView.alpha = 1.0;
+                                 blockSelf->_collectionView.alpha = 0.0;
                              }];
 
             // scroll to subView that contains flick in selected cell
@@ -450,11 +452,13 @@ typedef void (^FrcBlockOp)(void);
     [self.view removeGestureRecognizer:self.tapGr];
 
     // animate in/out collectionView/scrollView
+    __weak AlbumViewController *weakSelf = self;
     [UIView animateWithDuration:0.3
                      animations:^{
                         
-                         _collectionView.alpha = 1.0;
-                         _flickScrollView.alpha = 0.0;
+                         AlbumViewController *blockSelf = weakSelf;
+                         blockSelf->_collectionView.alpha = 1.0;
+                         blockSelf->_flickScrollView.alpha = 0.0;
                      }];
     
     _viewMode = Normal;
@@ -807,7 +811,7 @@ typedef void (^FrcBlockOp)(void);
                 dispatch_async(dispatch_get_main_queue(), ^{
                     innerSelf.viewMode = Predownloading;
                     [innerSelf configureViewMode];
-                    [innerSelf downloadAlbumForPin:_pin];
+                    [innerSelf downloadAlbumForPin:innerSelf->_pin];
                 });
             }
         }];

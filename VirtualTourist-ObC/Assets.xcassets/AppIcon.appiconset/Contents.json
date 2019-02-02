@@ -47,6 +47,12 @@
       "idiom" : "iphone",
       "filename" : "IconObjC-60pt@3x.png",
       "scale" : "3x"
+    },
+    {
+      "size" : "1024x1024",
+      "idiom" : "ios-marketing",
+      "filename" : "AppStoreIconObjC_1024pt.png",
+      "scale" : "1x"
     }
   ],
   "info" : {
